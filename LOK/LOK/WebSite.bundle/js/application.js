@@ -4,7 +4,18 @@
 
   $(function() {
     setup_socket();
-    return setup_chart();
+    setup_chart();
+    return $(window).bind('beforeunload', function(e) {
+      var message;
+      message = false;
+      if (true) {
+        message = "Are you sure to leave? make sure you backup the test data.";
+        e.returnValue = message;
+      } else {
+        return;
+      }
+      return message;
+    });
   });
 
   get_tr_template = function() {

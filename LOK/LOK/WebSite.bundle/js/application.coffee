@@ -1,6 +1,15 @@
 $ ->
   setup_socket()
   setup_chart()
+  $(window).bind 'beforeunload', (e)->
+    message = false
+    if true
+      message = "Are you sure to leave? make sure you backup the test data."
+      e.returnValue = message
+    else
+      return
+    return message
+  
   
 
   
