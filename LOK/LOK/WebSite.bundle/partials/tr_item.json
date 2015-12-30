@@ -1,0 +1,8 @@
+<tr>
+  <td>{{connectId}}</td>
+  <td title="{{requestURLString}}">{{#limitLength}}{{requestURLString}}{{/limitLength}}</td>
+  <td>{{requestCachePolicy}}</td>
+  <td>{{responseStatusCode}}</td>
+  <td>{{JSON.stringify(JSONString)}}</td>
+  <td>{{responseMIMEType}}</td>
+</tr>

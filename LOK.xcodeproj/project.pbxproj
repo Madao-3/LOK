@@ -7,14 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		58E5FDA0FAAF212D35A72B94 /* libPods-LOK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F93AF0E1B524199CA5753AA2 /* libPods-LOK.a */; };
+		E020175B1C311F890085BC2C /* LOKServerModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E020175A1C311F890085BC2C /* LOKServerModel.m */; };
+		E020175D1C3137790085BC2C /* WebSite.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E020175C1C3137790085BC2C /* WebSite.bundle */; };
 		E04F3E3F1C27EFA6007D4A13 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E04F3E3E1C27EFA6007D4A13 /* main.m */; };
 		E04F3E421C27EFA6007D4A13 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E04F3E411C27EFA6007D4A13 /* AppDelegate.m */; };
-		E04F3E451C27EFA6007D4A13 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E04F3E441C27EFA6007D4A13 /* ViewController.m */; };
-		E04F3E481C27EFA6007D4A13 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E04F3E461C27EFA6007D4A13 /* Main.storyboard */; };
 		E04F3E4A1C27EFA6007D4A13 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E04F3E491C27EFA6007D4A13 /* Assets.xcassets */; };
 		E04F3E4D1C27EFA6007D4A13 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E04F3E4B1C27EFA6007D4A13 /* LaunchScreen.storyboard */; };
 		E04F3E581C27EFA6007D4A13 /* LOKTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E04F3E571C27EFA6007D4A13 /* LOKTests.m */; };
 		E04F3E631C27EFA6007D4A13 /* LOKUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = E04F3E621C27EFA6007D4A13 /* LOKUITests.m */; };
+		E04F3E731C27F261007D4A13 /* LOKManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E04F3E721C27F261007D4A13 /* LOKManager.m */; };
+		E04F3E791C27F301007D4A13 /* LOKServer.m in Sources */ = {isa = PBXBuildFile; fileRef = E04F3E781C27F301007D4A13 /* LOKServer.m */; };
+		E04F3E7E1C27F3F2007D4A13 /* LOKURLSessionConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = E04F3E7D1C27F3F2007D4A13 /* LOKURLSessionConfiguration.m */; };
+		E04F3E811C27F4C5007D4A13 /* LOKURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = E04F3E801C27F4C5007D4A13 /* LOKURLProtocol.m */; };
+		E04F3E841C27FA4E007D4A13 /* LOKModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E04F3E831C27FA4E007D4A13 /* LOKModel.m */; };
+		E0A19C721C33B4FD000C62BB /* demoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E0A19C701C33B4FD000C62BB /* demoViewController.m */; };
+		E0A19C731C33B4FD000C62BB /* demoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E0A19C711C33B4FD000C62BB /* demoViewController.xib */; };
+		E0A19C791C33D1BC000C62BB /* UsageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E0A19C771C33D1BC000C62BB /* UsageManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,13 +44,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		25CDB884B0458802E642AAB0 /* Pods-LOK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LOK.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LOK/Pods-LOK.debug.xcconfig"; sourceTree = "<group>"; };
+		E02017591C311F890085BC2C /* LOKServerModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LOKServerModel.h; sourceTree = "<group>"; };
+		E020175A1C311F890085BC2C /* LOKServerModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LOKServerModel.m; sourceTree = "<group>"; };
+		E020175C1C3137790085BC2C /* WebSite.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = WebSite.bundle; sourceTree = "<group>"; };
 		E04F3E3A1C27EFA6007D4A13 /* LOK.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LOK.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E04F3E3E1C27EFA6007D4A13 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E04F3E401C27EFA6007D4A13 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		E04F3E411C27EFA6007D4A13 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		E04F3E431C27EFA6007D4A13 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		E04F3E441C27EFA6007D4A13 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		E04F3E471C27EFA6007D4A13 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E04F3E491C27EFA6007D4A13 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E04F3E4C1C27EFA6007D4A13 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E04F3E4E1C27EFA6007D4A13 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -51,6 +61,24 @@
 		E04F3E5E1C27EFA6007D4A13 /* LOKUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LOKUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E04F3E621C27EFA6007D4A13 /* LOKUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LOKUITests.m; sourceTree = "<group>"; };
 		E04F3E641C27EFA6007D4A13 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E04F3E711C27F261007D4A13 /* LOKManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LOKManager.h; sourceTree = "<group>"; };
+		E04F3E721C27F261007D4A13 /* LOKManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LOKManager.m; sourceTree = "<group>"; };
+		E04F3E771C27F301007D4A13 /* LOKServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LOKServer.h; sourceTree = "<group>"; };
+		E04F3E781C27F301007D4A13 /* LOKServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LOKServer.m; sourceTree = "<group>"; };
+		E04F3E7B1C27F396007D4A13 /* LOK-prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LOK-prefix.pch"; sourceTree = "<group>"; };
+		E04F3E7C1C27F3F2007D4A13 /* LOKURLSessionConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LOKURLSessionConfiguration.h; sourceTree = "<group>"; };
+		E04F3E7D1C27F3F2007D4A13 /* LOKURLSessionConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LOKURLSessionConfiguration.m; sourceTree = "<group>"; };
+		E04F3E7F1C27F4C5007D4A13 /* LOKURLProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LOKURLProtocol.h; sourceTree = "<group>"; };
+		E04F3E801C27F4C5007D4A13 /* LOKURLProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LOKURLProtocol.m; sourceTree = "<group>"; };
+		E04F3E821C27FA4E007D4A13 /* LOKModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LOKModel.h; sourceTree = "<group>"; };
+		E04F3E831C27FA4E007D4A13 /* LOKModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LOKModel.m; sourceTree = "<group>"; };
+		E0A19C6F1C33B4FD000C62BB /* demoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = demoViewController.h; sourceTree = "<group>"; };
+		E0A19C701C33B4FD000C62BB /* demoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = demoViewController.m; sourceTree = "<group>"; };
+		E0A19C711C33B4FD000C62BB /* demoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = demoViewController.xib; sourceTree = "<group>"; };
+		E0A19C771C33D1BC000C62BB /* UsageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UsageManager.m; sourceTree = "<group>"; };
+		E0A19C781C33D1BC000C62BB /* UsageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UsageManager.h; sourceTree = "<group>"; };
+		E47C4C1D8A9494FFED2E3BD5 /* Pods-LOK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LOK.release.xcconfig"; path = "Pods/Target Support Files/Pods-LOK/Pods-LOK.release.xcconfig"; sourceTree = "<group>"; };
+		F93AF0E1B524199CA5753AA2 /* libPods-LOK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LOK.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +86,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				58E5FDA0FAAF212D35A72B94 /* libPods-LOK.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +107,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8D27D7F12D46925815E50585 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				25CDB884B0458802E642AAB0 /* Pods-LOK.debug.xcconfig */,
+				E47C4C1D8A9494FFED2E3BD5 /* Pods-LOK.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		E04F3E311C27EFA6007D4A13 = {
 			isa = PBXGroup;
 			children = (
@@ -85,6 +123,8 @@
 				E04F3E561C27EFA6007D4A13 /* LOKTests */,
 				E04F3E611C27EFA6007D4A13 /* LOKUITests */,
 				E04F3E3B1C27EFA6007D4A13 /* Products */,
+				8D27D7F12D46925815E50585 /* Pods */,
+				E74D060991C3C7E435DFFFBE /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -101,15 +141,16 @@
 		E04F3E3C1C27EFA6007D4A13 /* LOK */ = {
 			isa = PBXGroup;
 			children = (
+				E04F3E701C27F240007D4A13 /* LOK */,
 				E04F3E401C27EFA6007D4A13 /* AppDelegate.h */,
 				E04F3E411C27EFA6007D4A13 /* AppDelegate.m */,
-				E04F3E431C27EFA6007D4A13 /* ViewController.h */,
-				E04F3E441C27EFA6007D4A13 /* ViewController.m */,
-				E04F3E461C27EFA6007D4A13 /* Main.storyboard */,
 				E04F3E491C27EFA6007D4A13 /* Assets.xcassets */,
 				E04F3E4B1C27EFA6007D4A13 /* LaunchScreen.storyboard */,
 				E04F3E4E1C27EFA6007D4A13 /* Info.plist */,
 				E04F3E3D1C27EFA6007D4A13 /* Supporting Files */,
+				E0A19C6F1C33B4FD000C62BB /* demoViewController.h */,
+				E0A19C701C33B4FD000C62BB /* demoViewController.m */,
+				E0A19C711C33B4FD000C62BB /* demoViewController.xib */,
 			);
 			path = LOK;
 			sourceTree = "<group>";
@@ -118,6 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				E04F3E3E1C27EFA6007D4A13 /* main.m */,
+				E04F3E7B1C27F396007D4A13 /* LOK-prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -140,6 +182,36 @@
 			path = LOKUITests;
 			sourceTree = "<group>";
 		};
+		E04F3E701C27F240007D4A13 /* LOK */ = {
+			isa = PBXGroup;
+			children = (
+				E0A19C771C33D1BC000C62BB /* UsageManager.m */,
+				E0A19C781C33D1BC000C62BB /* UsageManager.h */,
+				E020175C1C3137790085BC2C /* WebSite.bundle */,
+				E04F3E711C27F261007D4A13 /* LOKManager.h */,
+				E04F3E721C27F261007D4A13 /* LOKManager.m */,
+				E04F3E771C27F301007D4A13 /* LOKServer.h */,
+				E04F3E781C27F301007D4A13 /* LOKServer.m */,
+				E04F3E7C1C27F3F2007D4A13 /* LOKURLSessionConfiguration.h */,
+				E04F3E7D1C27F3F2007D4A13 /* LOKURLSessionConfiguration.m */,
+				E04F3E7F1C27F4C5007D4A13 /* LOKURLProtocol.h */,
+				E04F3E801C27F4C5007D4A13 /* LOKURLProtocol.m */,
+				E04F3E821C27FA4E007D4A13 /* LOKModel.h */,
+				E04F3E831C27FA4E007D4A13 /* LOKModel.m */,
+				E02017591C311F890085BC2C /* LOKServerModel.h */,
+				E020175A1C311F890085BC2C /* LOKServerModel.m */,
+			);
+			path = LOK;
+			sourceTree = "<group>";
+		};
+		E74D060991C3C7E435DFFFBE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F93AF0E1B524199CA5753AA2 /* libPods-LOK.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -147,9 +219,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E04F3E671C27EFA6007D4A13 /* Build configuration list for PBXNativeTarget "LOK" */;
 			buildPhases = (
+				E45EDB74942F6BC797532E9F /* Check Pods Manifest.lock */,
 				E04F3E361C27EFA6007D4A13 /* Sources */,
 				E04F3E371C27EFA6007D4A13 /* Frameworks */,
 				E04F3E381C27EFA6007D4A13 /* Resources */,
+				B8B124C86110BB37F7B9B4FD /* Copy Pods Resources */,
+				4B2C578254F7DD8FA6237199 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -244,8 +319,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				E04F3E4D1C27EFA6007D4A13 /* LaunchScreen.storyboard in Resources */,
+				E020175D1C3137790085BC2C /* WebSite.bundle in Resources */,
 				E04F3E4A1C27EFA6007D4A13 /* Assets.xcassets in Resources */,
-				E04F3E481C27EFA6007D4A13 /* Main.storyboard in Resources */,
+				E0A19C731C33B4FD000C62BB /* demoViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -265,14 +341,69 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		4B2C578254F7DD8FA6237199 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LOK/Pods-LOK-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B8B124C86110BB37F7B9B4FD /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LOK/Pods-LOK-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E45EDB74942F6BC797532E9F /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		E04F3E361C27EFA6007D4A13 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E04F3E451C27EFA6007D4A13 /* ViewController.m in Sources */,
+				E04F3E811C27F4C5007D4A13 /* LOKURLProtocol.m in Sources */,
+				E0A19C791C33D1BC000C62BB /* UsageManager.m in Sources */,
+				E04F3E731C27F261007D4A13 /* LOKManager.m in Sources */,
+				E04F3E791C27F301007D4A13 /* LOKServer.m in Sources */,
+				E04F3E841C27FA4E007D4A13 /* LOKModel.m in Sources */,
 				E04F3E421C27EFA6007D4A13 /* AppDelegate.m in Sources */,
+				E04F3E7E1C27F3F2007D4A13 /* LOKURLSessionConfiguration.m in Sources */,
 				E04F3E3F1C27EFA6007D4A13 /* main.m in Sources */,
+				E020175B1C311F890085BC2C /* LOKServerModel.m in Sources */,
+				E0A19C721C33B4FD000C62BB /* demoViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -308,14 +439,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		E04F3E461C27EFA6007D4A13 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				E04F3E471C27EFA6007D4A13 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		E04F3E4B1C27EFA6007D4A13 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -409,23 +532,27 @@
 		};
 		E04F3E681C27EFA6007D4A13 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 25CDB884B0458802E642AAB0 /* Pods-LOK.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = LOK/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = me.madao.LOK;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
 		E04F3E691C27EFA6007D4A13 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E47C4C1D8A9494FFED2E3BD5 /* Pods-LOK.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = LOK/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = me.madao.LOK;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -496,6 +623,7 @@
 				E04F3E691C27EFA6007D4A13 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E04F3E6A1C27EFA6007D4A13 /* Build configuration list for PBXNativeTarget "LOKTests" */ = {
 			isa = XCConfigurationList;
@@ -504,6 +632,7 @@
 				E04F3E6C1C27EFA6007D4A13 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E04F3E6D1C27EFA6007D4A13 /* Build configuration list for PBXNativeTarget "LOKUITests" */ = {
 			isa = XCConfigurationList;
@@ -512,6 +641,7 @@
 				E04F3E6F1C27EFA6007D4A13 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

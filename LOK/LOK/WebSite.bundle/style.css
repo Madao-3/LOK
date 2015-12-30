@@ -1,0 +1,21 @@
+body {
+  background-color: #fafafa;
+}
+
+.page-header {
+  margin: 25px 0 10px;
+}
+
+.bd-pageheader {
+  background-color: #9C0001;
+  color: #fff;
+  padding: 30px 0;
+}
+
+.nav-sidebar {
+  
+}
+
+.nav-sidebar li {
+  padding: 10px 0;
+}

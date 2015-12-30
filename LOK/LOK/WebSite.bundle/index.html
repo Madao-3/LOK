@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv='Content-type' content='text/html; charset=utf-8'>
+  <title></title>
+  <link rel='stylesheet' href='./bootstrap.min.css' type='text/css' media='screen'>
+  <link rel='stylesheet' href='./style.css' type='text/css' media='screen'>
+</head>
+<body>
+  <header class='navbar navbar-light navbar-static-top bd-navbar' role='banner'>
+    <div class='clearfix'>
+      <button class='navbar-toggler pull-xs-right hidden-sm-up' type='button' data-toggle='collapse' data-target='#bd-main-nav'>
+        ☰
+      </button>
+      <a class='navbar-brand hidden-sm-up' href='#'>
+        LOK
+      </a>
+    </div>
+    <div class='collapse navbar-toggleable-xs' id='bd-main-nav'>
+      <nav class='nav navbar-nav'>
+        <a class='nav-item nav-link active' href='#'>LOK</a>
+      </nav>
+    </div>
+  </header>
+  <div class='bd-pageheader'>
+    <div class='container'>
+      <h1>LOK</h1>
+      <p class='lead'>
+        hello world
+      </p>
+    </div>
+  </div>
+  <div class='container-fluid'>
+    <div class='row'>
+      <div class='col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main'>
+        <h1 class='page-header'>Dashboard</h1>
+
+        <div class='row '>
+          <div class='col-xs-6 col-sm-3'>
+            <canvas id="cpu_chart"></canvas>
+            <h4>CPU</h4>
+          </div>
+          <div class='col-xs-6 col-sm-3'>
+              <canvas id="memory_chart"></canvas>
+              <h4>Memory(MB)</h4>
+          </div>
+
+        </div>
+
+
+
+
+        <h2>Network Request</h2>
+        <div class='table-responsive'>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>connectId</th>
+                <th>requestURLString</th>
+                <th>requestCachePolicy</th>
+                <th>responseStatusCode</th>
+                <th>JSONString</th>
+                <th>responseMIMEType</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type='text/javascript' src='./js/jquery-2.1.4.min.js'></script>
+  <script type='text/javascript' src='./js/mustache.min.js'></script>
+  <script type='text/javascript' src='./js/Chart.min.js'></script>
+  <script type='text/javascript' src="./js/application.js"></script>  
+</body>
+</html>
