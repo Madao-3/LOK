@@ -15,6 +15,9 @@ body {
 .nav-sidebar {
   
 }
+canvas {
+  width: 100%;
+}
 
 .nav-sidebar li {
   padding: 10px 0;

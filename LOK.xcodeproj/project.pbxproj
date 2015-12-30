@@ -24,6 +24,7 @@
 		E0A19C721C33B4FD000C62BB /* demoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E0A19C701C33B4FD000C62BB /* demoViewController.m */; };
 		E0A19C731C33B4FD000C62BB /* demoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E0A19C711C33B4FD000C62BB /* demoViewController.xib */; };
 		E0A19C791C33D1BC000C62BB /* UsageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E0A19C771C33D1BC000C62BB /* UsageManager.m */; };
+		E0A19CBE1C33E589000C62BB /* LOKFrameCounter.m in Sources */ = {isa = PBXBuildFile; fileRef = E0A19CBD1C33E589000C62BB /* LOKFrameCounter.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +78,8 @@
 		E0A19C711C33B4FD000C62BB /* demoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = demoViewController.xib; sourceTree = "<group>"; };
 		E0A19C771C33D1BC000C62BB /* UsageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UsageManager.m; sourceTree = "<group>"; };
 		E0A19C781C33D1BC000C62BB /* UsageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UsageManager.h; sourceTree = "<group>"; };
+		E0A19CBC1C33E589000C62BB /* LOKFrameCounter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LOKFrameCounter.h; sourceTree = "<group>"; };
+		E0A19CBD1C33E589000C62BB /* LOKFrameCounter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LOKFrameCounter.m; sourceTree = "<group>"; };
 		E47C4C1D8A9494FFED2E3BD5 /* Pods-LOK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LOK.release.xcconfig"; path = "Pods/Target Support Files/Pods-LOK/Pods-LOK.release.xcconfig"; sourceTree = "<group>"; };
 		F93AF0E1B524199CA5753AA2 /* libPods-LOK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LOK.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -200,6 +203,8 @@
 				E04F3E831C27FA4E007D4A13 /* LOKModel.m */,
 				E02017591C311F890085BC2C /* LOKServerModel.h */,
 				E020175A1C311F890085BC2C /* LOKServerModel.m */,
+				E0A19CBC1C33E589000C62BB /* LOKFrameCounter.h */,
+				E0A19CBD1C33E589000C62BB /* LOKFrameCounter.m */,
 			);
 			path = LOK;
 			sourceTree = "<group>";
@@ -396,6 +401,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E04F3E811C27F4C5007D4A13 /* LOKURLProtocol.m in Sources */,
+				E0A19CBE1C33E589000C62BB /* LOKFrameCounter.m in Sources */,
 				E0A19C791C33D1BC000C62BB /* UsageManager.m in Sources */,
 				E04F3E731C27F261007D4A13 /* LOKManager.m in Sources */,
 				E04F3E791C27F301007D4A13 /* LOKServer.m in Sources */,

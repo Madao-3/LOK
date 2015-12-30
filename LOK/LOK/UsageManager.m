@@ -7,6 +7,7 @@
 //
 
 #import "UsageManager.h"
+#import "LOKFrameCounter.h"
 #import <mach/mach.h>
 
 @implementation UsageManager
@@ -14,7 +15,8 @@
 + (NSDictionary *)getUsage {
     return @{
              @"memory_usage" : @(memory_usage()),
-             @"cpu_usage"    : @(cpu_usage())
+             @"cpu_usage"    : @(cpu_usage()),
+             @"fps"          : @([LOKFrameCounter shareCounter].fps),
              };
 }
 
