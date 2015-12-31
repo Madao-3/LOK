@@ -8,7 +8,7 @@
 
 #import "LOKFrameCounter.h"
 #import <QuartzCore/QuartzCore.h>
-#import <SpriteKit/SpriteKit.h>
+
 static NSInteger const kHardwareFramesPerSecond = 60;
 static NSTimeInterval const kNormalFrameDuration = 1.0 / kHardwareFramesPerSecond;
 @interface LOKFrameCounter (){

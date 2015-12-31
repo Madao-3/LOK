@@ -3,70 +3,118 @@
 <head>
   <meta http-equiv='Content-type' content='text/html; charset=utf-8'>
   <title></title>
-  <link rel='stylesheet' href='./bootstrap.min.css' type='text/css' media='screen'>
-  <link rel='stylesheet' href='./style.css' type='text/css' media='screen'>
+  <link rel='stylesheet' href='./css/bootstrap.min.css' type='text/css' media='screen'>
+  <link rel='stylesheet' href='./css/bootstrap-theme.min.css' type='text/css' media='screen'>
+  <link rel='stylesheet' href='./css/style.css' type='text/css' media='screen'>
 </head>
 <body>
-  <header class='navbar navbar-light navbar-static-top bd-navbar' role='banner'>
-    <div class='clearfix'>
-      <button class='navbar-toggler pull-xs-right hidden-sm-up' type='button' data-toggle='collapse' data-target='#bd-main-nav'>
-        ☰
-      </button>
-      <a class='navbar-brand hidden-sm-up' href='#'>
-        LOK
-      </a>
-    </div>
-    <div class='collapse navbar-toggleable-xs' id='bd-main-nav'>
-      <nav class='nav navbar-nav'>
-        <a class='nav-item nav-link active' href='#'>LOK</a>
+ 
+  <header class="navbar navbar-static-top bs-docs-nav" id="top" role="banner">
+    <div class="container"> 
+      <div class="navbar-header">
+        <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a href="../" class="navbar-brand">Bootstrap</a>
+      </div>
+      <nav id="bs-navbar" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+          <li> <a href="../getting-started/">Getting started</a> </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="http://blog.getbootstrap.com">Blog</a></li>
+        </ul>
       </nav>
     </div>
   </header>
+ 
+ 
+ 
+ 
   <div class='bd-pageheader'>
-    <div class='container'>
-      <h1>LOK</h1>
-      <p class='lead'>
-        hello world
-      </p>
+    <div class='container-fluid'>
+      <div class='col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1'>
+        <h1>LOK</h1>
+        <p class='lead' id="thread_count">
+          there is {{count}} thread runing
+        </p>
+        <p class="lead" id="viewcontroller_path">
+          {{path}}
+        </p>
+      </div>
     </div>
   </div>
   <div class='container-fluid'>
     <div class='row'>
-      <div class='col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main'>
+      <div class='col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1 main'>
         <h1 class='page-header'>Dashboard</h1>
 
-        <div class='row '>
-          <div class='col-xs-10 col-md-10'>
-            <canvas id="cpu_chart"></canvas>
+        <div class='row'>
+          <div class='col-xs-12 col-sm-12 col-md-4 col-lg-5'>
             <h4>CPU</h4>
+            <canvas id="cpu_chart"></canvas>
           </div>
-          <div class='col-xs-10 col-md-10'>
-              <canvas id="memory_chart"></canvas>
-              <h4>Memory(MB)</h4>
+          <div class='col-xs-12 col-sm-12 col-md-4 col-lg-5'>
+            <h4>Memory(MB)</h4>
+            <canvas id="memory_chart"></canvas>
           </div>
-          <div class='col-xs-10 col-md-10'>
-              <canvas id="fps_chart"></canvas>
-              <h4>FPS</h4>
+          <div class='col-xs-12 col-sm-12 col-md-4 col-lg-2'>
+            <h4>FPS</h4>
+            <canvas id="fps_chart"></canvas>
           </div>
         </div>
 
 
 
 
-        <h2>Network Request</h2>
+        <ul class="nav nav-tabs">
+          <li role="presentation" class="active">
+            <a href="#">requests</a>
+          </li>
+          <li role="presentation">
+            <a href="#">event</a>
+          </li>
+          <li role="presentation" class="dropdown pull-right" id="request_filter">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"> Dropdown <span class="caret"></span> </a>
+            <ul class="dropdown-menu">
+              <li><a href="#">event</a></li>
+              <li><a href="#">Another action</a></li>
+              <li><a href="#">Something else here</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="#">Separated link</a></li>
+            </ul>
+          </li>
+        </ul>
+
+
         <div class='table-responsive'>
-          <table class='table'>
+          <table class='table' id="request_table">
             <thead>
               <tr>
                 <th>connectId</th>
                 <th>requestURLString</th>
                 <th>requestCachePolicy</th>
                 <th>responseStatusCode</th>
-                <th>JSONString</th>
+                <th>Content</th>
                 <th>responseMIMEType</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody id="requests_list">
+              <tr v-for="request in list">
+                <td>{{request.connectId}}</td>
+                <td title="{{request.requestURLString}}">
+                  <a href="{{request.requestURLString}}">
+                    {{(request.requestURLString.length > 30 ? request.requestURLString.splice(0,30)+"..." : request.requestURLString)}}
+                  </a>
+                </td>
+                <td>{{request.requestCachePolicy}}</td>
+                <td>{{request.responseStatusCode}}</td>
+                <td>{{JSON.stringify(request.JSONString)}}</td>
+                <td>{{request.responseMIMEType}}</td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -74,8 +122,9 @@
     </div>
   </div>
   <script type='text/javascript' src='./js/jquery-2.1.4.min.js'></script>
-  <script type='text/javascript' src='./js/mustache.min.js'></script>
+  <script type='text/javascript' src='./js/vue.js'></script>
   <script type='text/javascript' src='./js/Chart.min.js'></script>
+  <script type='text/javascript' src='./js/bootstrap.min.js'></script>  
   <script type='text/javascript' src="./js/application.js"></script>  
 </body>
 </html>

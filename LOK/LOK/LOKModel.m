@@ -64,7 +64,6 @@
 
 - (void)setLok_response:(NSHTTPURLResponse *)lok_response_new {
     lok_response = lok_response_new;
-
     self.responseStatusCode            = (NSInteger)lok_response.statusCode;
     self.responseMIMEType              = [lok_response MIMEType];
     self.responseExpectedContentLength = [NSString stringWithFormat:@"%lld",[lok_response expectedContentLength]];

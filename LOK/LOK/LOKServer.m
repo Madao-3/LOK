@@ -157,7 +157,7 @@
     [NSURLProtocol registerClass:[LOKURLProtocol class]];
     [LOKManager defaultManager];
     [self serverStart];
-    [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(updateUsage) userInfo:nil repeats:YES];
+    [NSTimer scheduledTimerWithTimeInterval:0.3 target:self selector:@selector(updateUsage) userInfo:nil repeats:YES];
 }
 
 - (NSString *)serverId {

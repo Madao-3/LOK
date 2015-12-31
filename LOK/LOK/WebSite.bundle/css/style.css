@@ -7,7 +7,7 @@ body {
 }
 
 .bd-pageheader {
-  background-color: #9C0001;
+  background-color: #97bbcd;
   color: #fff;
   padding: 30px 0;
 }
@@ -21,4 +21,7 @@ canvas {
 
 .nav-sidebar li {
   padding: 10px 0;
+}
+.navbar a{
+  color: #fff;
 }

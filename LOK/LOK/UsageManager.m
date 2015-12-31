@@ -9,6 +9,7 @@
 #import "UsageManager.h"
 #import "LOKFrameCounter.h"
 #import <mach/mach.h>
+#import <UIKit/UIKit.h>
 
 @implementation UsageManager
 
@@ -17,6 +18,8 @@
              @"memory_usage" : @(memory_usage()),
              @"cpu_usage"    : @(cpu_usage()),
              @"fps"          : @([LOKFrameCounter shareCounter].fps),
+             @"thread_count" : @(getThreadsCount()),
+             @"viewcontroller_path" : [self currentViewControllerPath],
              };
 }
 
@@ -27,6 +30,25 @@
 
 }
 
+
++ (NSString *)currentViewControllerPath {
+    UIApplication *application = [UIApplication sharedApplication];
+    NSArray *list = @[];
+    NSMutableArray *stringList = [@[] mutableCopy];
+    for (UIWindow *window in application.windows) {
+        NSArray *viewControllers = window.rootViewController.navigationController.viewControllers;
+        if (!viewControllers&&list.count==0) {
+            list = @[window.rootViewController];
+        }
+        if (viewControllers.count > list.count) {
+            list = window.rootViewController.navigationController.viewControllers;
+        }
+    }
+    for (id view in list) {
+        [stringList addObject:NSStringFromClass([view class])];
+    }
+    return [stringList componentsJoinedByString:@" -> "];
+}
 
 float memory_usage() {
     struct task_basic_info info;
@@ -101,6 +123,26 @@ float cpu_usage() {
     assert(kr == KERN_SUCCESS);
     
     return tot_cpu;
+}
+
+static int getThreadsCount()
+{
+    thread_array_t threadList;
+    mach_msg_type_number_t threadCount;
+    task_t task;
+    
+    kern_return_t kernReturn = task_for_pid(mach_task_self(), getpid(), &task);
+    if (kernReturn != KERN_SUCCESS) {
+        return -1;
+    }
+    
+    kernReturn = task_threads(task, &threadList, &threadCount);
+    if (kernReturn != KERN_SUCCESS) {
+        return -1;
+    }
+    vm_deallocate (mach_task_self(), (vm_address_t)threadList, threadCount * sizeof(thread_act_t));
+    
+    return threadCount;
 }
 
 @end
