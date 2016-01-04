@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
   s.license          = { :type => "MIT", :file => "FILE_LICENSE" }
   s.author           = "Madao"
   s.social_media_url = "https://twitter.com/madao_chris/"
-  s.platform         = :ios, "9.0"
+  s.platform         = :ios, "7.0"
   s.source           = { :git => "https://github.com/Madao-3/LOK", :tag => "0.0.1" }
   s.source_files     = 'LOK/LOK/**/*.{h,m,png}'
   s.requires_arc     = true
