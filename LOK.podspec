@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   # s.resource  = "icon.png"
   # s.resources = "Resources/*.png"
 
-  s.frameworks = "QuartzCore", "AnotherFramework"
+  s.frameworks = "QuartzCore"
   s.dependency 'RoutingHTTPServer', '~> 1.0'
   s.dependency 'PocketSocket', '~> 0.6.4'
 end
