@@ -8,35 +8,63 @@ window.Application =
       list: []
   })
   
-  thread_count : new Vue({
-    el: '#thread_count'
+  base_info : new Vue({
+    el: '#base_info'
     data:
       count: 0
-  })
-  
-  viewcontroller_path : new Vue({
-    el: '#viewcontroller_path'
-    data:
       path: ""
+      app_name: ""
+      memory_size: 0
+      start_time: null
+      cpu_percent: 0
+      memory_percent: 0
+      fps: 0
   })
   
+  UTCDateString : (date)->
+    year  = date.getUTCFullYear() 
+    month = @pad(date.getUTCMonth() + 1) 
+    dates = @pad(date.getUTCDate())
+    hours = @pad(date.getUTCHours())
+    mins  = @pad(date.getUTCMinutes())
+    sec   = @pad(date.getUTCSeconds());
+    # 2011-12-17T09:24:17Z
+    return "#{year}-#{month}-#{dates}T#{hours}:#{mins}:#{sec}Z"
+  
+  pad : (number)->
+    console.log number
+    if (number < 10) 
+      return '0' + number
+    return number
   setup_socket : ->
     _this = @
-    # @socket = new WebSocket("ws://#{location.hostname}:#{+(location.port)+1}")
-    @socket = new WebSocket("ws://192.168.10.113:12356")
+    @socket = new WebSocket("ws://#{location.hostname}:#{+(location.port)+1}")
+    # @socket = new WebSocket("ws://192.168.10.33:12356")
     @socket.onopen = ->
-      _this.socket.send('hello world!')
+      _this.socket.send('hello world and what is your name?')
 
     @socket.onmessage = (event)->
+      console.log event
       data = JSON.parse(event.data)
-      switch data["type"]
+      switch data.type
         when "request"
-          _this.handle_request(data["data"])
+          _this.handle_request(data.data)
           break
         when "usage"
-          _this.handle_usage(data["data"])
+          _this.handle_usage(data.data)
           break
-  
+        when "base_info"
+          _this.base_info.app_name    = data.name
+          _this.base_info.memory_size = data.memory_size
+          date = new Date data.start_time.replace('GMT','')
+          _this.base_info.start_time = _this.UTCDateString date;
+          setTimeout(->
+            $("time.timeago").timeago()
+          ,100)
+          setInterval(->
+            $("time.timeago").timeago()
+          ,60000)
+          break
     @socket.onclose = () ->
       console.log('Lost connection! Maybe server is close.')
       setTimeout(->
@@ -44,13 +72,15 @@ window.Application =
       ,100)
 
   handle_request : (data)->
-    window.xx = @requests_list
     @requests_list.list.unshift data
   
   
   handle_usage : (data)->
-    @thread_count.count = data.thread_count
-    @viewcontroller_path.path = data.viewcontroller_path
+    @base_info.cpu_percent    = data.cpu_usage.toFixed(2)
+    @base_info.memory_percent = (data.memory_usage / (1024*1024*10)).toFixed(2)
+    @base_info.fps            = data.fps
+    @base_info.count = data.thread_count
+    @base_info.path = data.viewcontroller_path
     if @memory_chart.getContext
       @setup_chart()
       return
@@ -93,8 +123,7 @@ window.Application =
     })
     fps_ctx = $("#fps_chart").get(0).getContext("2d")
     @fps_chart = new Chart(fps_ctx).Line(@fps_data, option)
-    
-  
+
   event_bind : ->
     $('.nav-tabs a').click (e)->
       e.preventDefault()
@@ -112,7 +141,7 @@ window.Application =
   cpu_data : 
     labels: [],
     datasets: [{
-      fillColor     : "rgba(151,187,205,0.2)"
+      fillColor     : "rgba(151,187,205,0.7)"
       strokeColor   : "rgba(151,187,205,1)"
       data: []
       }]
@@ -120,19 +149,16 @@ window.Application =
   memory_data :
     labels: [],
     datasets: [{
-                backgroundColor:"#F7464A"
-
-                fillColor: "rgba(216,165,159,0.5)"
+                fillColor: "rgba(216,165,159,0.7)"
                 strokeColor: "rgba(216,165,159,1)"
-                scaleLabel: "<%=value%>MB"
                 data: []
               }]
             
   fps_data :
     labels: [],
     datasets: [{
-        fillColor     : "rgba(151,187,205,0.2)"
-        strokeColor   : "rgba(151,187,205,1)"
+        fillColor     : "rgba(216,204,134,0.7)"
+        strokeColor   : "rgba(216,204,134,1)"
         data: []
       }]
 

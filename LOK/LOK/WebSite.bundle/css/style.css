@@ -22,6 +22,102 @@ canvas {
 .nav-sidebar li {
   padding: 10px 0;
 }
-.navbar a{
+.navbar a {
   color: #fff;
+}
+
+.base_info_block {
+  display: block;
+  width: 50px;
+  height: 60px;
+  border: 1px solid #ddd;
+  overflow: hidden;
+}
+
+.base_info_block .method,.base_info_block .status {
+  height: 30px;
+  line-height: 30px;
+  color: #07c;
+  width: 100%;
+  display: block;
+  text-align: center;
+}
+
+.base_info_block .method {
+  background: #dedede;
+  font-weight: bold;
+}
+
+.progress-pie-chart {
+  display: block;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background-color: #E5E5E5;
+  position: relative;
+  margin: 5px 20px;
+  transition: all 0.35s linear;
+}
+.progress-pie-chart.gt-50 {
+  background-color: #81CE97;
+}
+
+.ppc-progress {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  left: calc(50% - 100px);
+  top: calc(50% - 100px);
+  width: 200px;
+  height: 200px;
+  clip: rect(0, 200px, 200px, 100px);
+  transition: all 0.35s linear;
+}
+.ppc-progress .ppc-progress-fill {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  left: calc(50% - 100px);
+  top: calc(50% - 100px);
+  width: 200px;
+  height: 200px;
+  clip: rect(0, 100px, 200px, 0);
+  background: #81CE97;
+  transform: rotate(60deg);
+  transition: all 0.35s linear;
+}
+.gt-50 .ppc-progress {
+  clip: rect(0, 100px, 200px, 0);
+}
+.gt-50 .ppc-progress .ppc-progress-fill {
+  clip: rect(0, 200px, 200px, 100px);
+  background: #E5E5E5;
+}
+
+.ppc-percents {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  left: calc(50% - 160px/2);
+  top: calc(50% - 160px/2);
+  width: 160px;
+  height: 160px;
+  background: #fff;
+  text-align: center;
+  display: table;
+}
+.ppc-percents span {
+  display: block;
+  font-size: 2.6em;
+  font-weight: bold;
+  color: #81CE97;
+}
+.ppc-percents .mark-label {
+  font-size: 12px;
+  background: ;
+}
+
+.pcc-percents-wrapper {
+  display: table-cell;
+  vertical-align: middle;
 }

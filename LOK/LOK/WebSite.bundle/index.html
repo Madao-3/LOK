@@ -18,14 +18,14 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a href="../" class="navbar-brand">Bootstrap</a>
+        <a href="/" class="navbar-brand">LOK</a>
       </div>
       <nav id="bs-navbar" class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
-          <li> <a href="../getting-started/">Getting started</a> </li>
+          <li> <a href="#"></a> </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="http://blog.getbootstrap.com">Blog</a></li>
+          <li><a href="#"></a></li>
         </ul>
       </nav>
     </div>
@@ -36,13 +36,55 @@
  
   <div class='bd-pageheader'>
     <div class='container-fluid'>
-      <div class='col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1'>
-        <h1>LOK</h1>
-        <p class='lead' id="thread_count">
+      <div class='col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1' id="base_info">
+
+        <div class="progress-pie-chart pull-right">
+          <div class="ppc-progress">
+            <div class="ppc-progress-fill" style="transform:rotate({{360*cpu_percent/100}}deg);"></div>
+          </div>
+          <div class="ppc-percents">
+            <div class="pcc-percents-wrapper">
+              <span>{{cpu_percent}}%</span>
+              <span class="mark-label">current cpu</span>
+            </div>
+          </div>
+        </div>
+          
+        <div class="progress-pie-chart pull-right">
+          <div class="ppc-progress">
+            <div class="ppc-progress-fill" style="transform:rotate({{360*memory_percent/100}}deg);"></div>
+          </div>
+          <div class="ppc-percents">
+            <div class="pcc-percents-wrapper">
+              <span>{{memory_percent}}%</span>
+              <span class="mark-label">current memory<br>(out of 1 GB)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="progress-pie-chart pull-right">
+          <div class="ppc-progress">
+            <div class="ppc-progress-fill" style="transform:rotate({{360*(fps/60)}}deg);"></div>
+          </div>
+          <div class="ppc-percents">
+            <div class="pcc-percents-wrapper">
+              <span>{{fps}}/60</span>
+              <span class="mark-label">current fps</span>
+            </div>
+          </div>
+        </div>
+
+        
+
+        <h1>LOKing at {{app_name}}</h1>
+        <p class='lead'>
           there is {{count}} thread runing
         </p>
-        <p class="lead" id="viewcontroller_path">
-          {{path}}
+        <p class="lead" v-if="start_time">
+          Start at : <time class="timeago" datetime="{{start_time}}"></time>
+        </p>
+        <p class="lead">
+          current path: {{path}}
         </p>
       </div>
     </div>
@@ -77,8 +119,8 @@
           <li role="presentation">
             <a href="#">event</a>
           </li>
-          <li role="presentation" class="dropdown pull-right" id="request_filter">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"> Dropdown <span class="caret"></span> </a>
+          <li role="presentation" class="Dropdown pull-right" id="request_filter">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"> Filter <span class="caret"></span> </a>
             <ul class="dropdown-menu">
               <li><a href="#">event</a></li>
               <li><a href="#">Another action</a></li>
@@ -94,9 +136,11 @@
           <table class='table' id="request_table">
             <thead>
               <tr>
-                <th>connectId</th>
+                <th>Method</th>
+                <th>Time</th>
+                <th>Size</th>
                 <th>requestURLString</th>
-                <th>requestCachePolicy</th>
+                <th>responseAllHeaderFields</th>
                 <th>responseStatusCode</th>
                 <th>Content</th>
                 <th>responseMIMEType</th>
@@ -104,14 +148,23 @@
             </thead>
             <tbody id="requests_list">
               <tr v-for="request in list">
-                <td>{{request.connectId}}</td>
+                <td>
+                  <div class="base_info_block">
+                    <span class="method method-{{request.requestHTTPMethod}}">{{request.requestHTTPMethod}}</span>
+                    <span class="status status-{{request.requestHTTPMethod}}">{{request.responseStatusCode}}</span>
+                  </div>
+                </td>
+                <td>{{request.time}}</td>
+                <td>{{request.responseDataSize}}</td>
                 <td title="{{request.requestURLString}}">
-                  <a href="{{request.requestURLString}}">
-                    {{(request.requestURLString.length > 30 ? request.requestURLString.splice(0,30)+"..." : request.requestURLString)}}
+                  <a href="{{request.requestURLString}}" v-if="request.requestURLString.length > 30">
+                    {{request.requestURLString.slice(0,30)+"..."}}
+                  </a>
+                  <a href="{{request.requestURLString}}" v-else>
+                    {{request.requestURLString}}
                   </a>
                 </td>
-                <td>{{request.requestCachePolicy}}</td>
-                <td>{{request.responseStatusCode}}</td>
+                <td>{{request.responseAllHeaderFields}}</td>
                 <td>{{JSON.stringify(request.JSONString)}}</td>
                 <td>{{request.responseMIMEType}}</td>
               </tr>
@@ -122,6 +175,7 @@
     </div>
   </div>
   <script type='text/javascript' src='./js/jquery-2.1.4.min.js'></script>
+  <script type='text/javascript' src='./js/jquery.timeago.js'></script>
   <script type='text/javascript' src='./js/vue.js'></script>
   <script type='text/javascript' src='./js/Chart.min.js'></script>
   <script type='text/javascript' src='./js/bootstrap.min.js'></script>  

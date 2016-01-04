@@ -15,7 +15,6 @@
 @property (nonatomic, strong) NSURLConnection *connection;
 @property (nonatomic, strong) NSURLResponse *response;
 @property (nonatomic, strong) NSMutableData *data;
-@property (nonatomic, strong) NSDate *startDate;
 @property (nonatomic, strong) LOKModel *model;
 @end
 
@@ -51,9 +50,9 @@
 
 
 - (void)startLoading {
-    self.startDate = [NSDate date];
-    self.data      = [NSMutableData data];
-    self.model     = [[LOKModel alloc] init];
+    self.data            = [NSMutableData data];
+    self.model           = [[LOKModel alloc] init];
+    self.model.startTime = CFAbsoluteTimeGetCurrent();
     self.model.connectId = [LOKServer shareServer].serverId;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -68,9 +67,10 @@
     if (!self.response) {
         return;
     }
+    self.model.endTime      = CFAbsoluteTimeGetCurrent();
     self.model.lok_response = (NSHTTPURLResponse *)self.response;
-    NSString *mimeType    = self.response.MIMEType;
-    self.model.JSONString = @"";
+    NSString *mimeType      = self.response.MIMEType;
+    self.model.JSONString   = @"";
     if ([mimeType isEqualToString:@"application/json"]) {
         self.model.JSONString = [NSJSONSerialization JSONObjectWithData:self.data
                                                                     options:NSJSONReadingMutableContainers

@@ -23,6 +23,7 @@
 @property (nonatomic, strong) RoutingHTTPServer *httpServer;
 @property (nonatomic, strong) PSWebSocketServer *socketServer;
 @property (nonatomic, strong) NSMutableArray *socketList;
+@property (nonatomic, copy) NSString *startTimeString;
 @end
 
 @implementation LOKServer
@@ -40,6 +41,7 @@
 - (void)serverStart {
     NSError *error;
     if([self.httpServer start:&error]) {
+        self.startTimeString = [[self.class defaultDateFormatter] stringFromDate:[NSDate date]];
         NSLog(@"Started HTTP Server on port %hu", [self.httpServer listeningPort]);
         NSString *webPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"WebSite.bundle"];
         NSLog(@"Setting document root: %@", webPath);
@@ -104,6 +106,15 @@
 
 - (void)server:(PSWebSocketServer *)server webSocket:(PSWebSocket *)webSocket didReceiveMessage:(id)message {
     if (self.socketList.count < MAX_SOCKET_CONNECT_COUNT) {
+        NSString *name = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
+        if (!name) {
+            name = @"";
+        }
+        NSError * err;
+        NSData * jsonData = [NSJSONSerialization dataWithJSONObject:@{@"type":@"base_info",@"name":name,@"start_time":self.startTimeString,@"memory_size":@([NSProcessInfo processInfo].physicalMemory)}
+                                                            options:0 error:&err];
+        NSString * jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+        [webSocket send:jsonString];
         [self.socketList addObject:webSocket];
     }
 
@@ -173,7 +184,7 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         staticDateFormatter=[[NSDateFormatter alloc] init];
-        [staticDateFormatter setDateFormat:@"yyyy-MM-dd/HH:mm:ss"];
+        [staticDateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZZZZ"];
     });
     return staticDateFormatter;
 }

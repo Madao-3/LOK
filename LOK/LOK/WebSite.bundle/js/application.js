@@ -11,34 +11,65 @@
         list: []
       }
     }),
-    thread_count: new Vue({
-      el: '#thread_count',
+    base_info: new Vue({
+      el: '#base_info',
       data: {
-        count: 0
+        count: 0,
+        path: "",
+        app_name: "",
+        memory_size: 0,
+        start_time: null,
+        cpu_percent: 0,
+        memory_percent: 0,
+        fps: 0
       }
     }),
-    viewcontroller_path: new Vue({
-      el: '#viewcontroller_path',
-      data: {
-        path: ""
+    UTCDateString: function(date) {
+      var dates, hours, mins, month, sec, year;
+      year = date.getUTCFullYear();
+      month = this.pad(date.getUTCMonth() + 1);
+      dates = this.pad(date.getUTCDate());
+      hours = this.pad(date.getUTCHours());
+      mins = this.pad(date.getUTCMinutes());
+      sec = this.pad(date.getUTCSeconds());
+      return year + "-" + month + "-" + dates + "T" + hours + ":" + mins + ":" + sec + "Z";
+    },
+    pad: function(number) {
+      console.log(number);
+      if (number < 10) {
+        return '0' + number;
       }
-    }),
+      return number;
+    },
     setup_socket: function() {
       var _this;
       _this = this;
-      this.socket = new WebSocket("ws://192.168.10.113:12356");
+      this.socket = new WebSocket("ws://" + location.hostname + ":" + (+location.port + 1));
       this.socket.onopen = function() {
-        return _this.socket.send('hello world!');
+        return _this.socket.send('hello world and what is your name?');
       };
       this.socket.onmessage = function(event) {
-        var data;
+        var data, date;
+        console.log(event);
         data = JSON.parse(event.data);
-        switch (data["type"]) {
+        switch (data.type) {
           case "request":
-            _this.handle_request(data["data"]);
+            _this.handle_request(data.data);
             break;
           case "usage":
-            _this.handle_usage(data["data"]);
+            _this.handle_usage(data.data);
+            break;
+          case "base_info":
+            _this.base_info.app_name = data.name;
+            _this.base_info.memory_size = data.memory_size;
+            date = new Date(data.start_time.replace('GMT', ''));
+            _this.base_info.start_time = _this.UTCDateString(date);
+            setTimeout(function() {
+              return $("time.timeago").timeago();
+            }, 100);
+            setInterval(function() {
+              return $("time.timeago").timeago();
+            }, 60000);
             break;
         }
       };
@@ -50,12 +81,14 @@
       };
     },
     handle_request: function(data) {
-      window.xx = this.requests_list;
       return this.requests_list.list.unshift(data);
     },
     handle_usage: function(data) {
-      this.thread_count.count = data.thread_count;
-      this.viewcontroller_path.path = data.viewcontroller_path;
+      this.base_info.cpu_percent = data.cpu_usage.toFixed(2);
+      this.base_info.memory_percent = (data.memory_usage / (1024 * 1024 * 10)).toFixed(2);
+      this.base_info.fps = data.fps;
+      this.base_info.count = data.thread_count;
+      this.base_info.path = data.viewcontroller_path;
       if (this.memory_chart.getContext) {
         this.setup_chart();
         return;
@@ -127,7 +160,7 @@
       labels: [],
       datasets: [
         {
-          fillColor: "rgba(151,187,205,0.2)",
+          fillColor: "rgba(151,187,205,0.7)",
           strokeColor: "rgba(151,187,205,1)",
           data: []
         }
@@ -137,10 +170,8 @@
       labels: [],
       datasets: [
         {
-          backgroundColor: "#F7464A",
-          fillColor: "rgba(216,165,159,0.5)",
+          fillColor: "rgba(216,165,159,0.7)",
           strokeColor: "rgba(216,165,159,1)",
-          scaleLabel: "<%=value%>MB",
           data: []
         }
       ]
@@ -149,8 +180,8 @@
       labels: [],
       datasets: [
         {
-          fillColor: "rgba(151,187,205,0.2)",
-          strokeColor: "rgba(151,187,205,1)",
+          fillColor: "rgba(216,204,134,0.7)",
+          strokeColor: "rgba(216,204,134,1)",
           data: []
         }
       ]

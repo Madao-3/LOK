@@ -53,6 +53,7 @@
                 dict[key] = [NSString stringWithFormat:@"%@",value];
             }
         }
+        dict[@"time"] = @(self.endTime - self.startTime);
         
         NSDictionary *result = @{@"type":@"request",@"data":dict};
         NSData *jsonData     = [NSJSONSerialization dataWithJSONObject:result options:0 error:nil];
@@ -69,19 +70,20 @@
     self.responseExpectedContentLength = [NSString stringWithFormat:@"%lld",[lok_response expectedContentLength]];
     self.responseTextEncodingName      = lok_response.textEncodingName ? lok_response.textEncodingName : @"" ;
     self.responseSuggestedFilename     = lok_response.suggestedFilename ? lok_response.suggestedFilename : @"" ;
+    self.responseDataSize              = lok_response.expectedContentLength;
     for ( NSString *key in [lok_response.allHeaderFields allKeys] ) {
         NSString *headerFieldValue = [lok_response.allHeaderFields objectForKey:key];
         if ([key isEqualToString:@"Content-Security-Policy"]) {
             if ([[headerFieldValue substringFromIndex:12] isEqualToString:@"'none'"]) {
-                headerFieldValue=[headerFieldValue substringToIndex:11];
+                headerFieldValue = [headerFieldValue substringToIndex:11];
             }
         }
-        self.responseAllHeaderFields=[NSString stringWithFormat:@"%@%@:%@\n",self.responseAllHeaderFields,key,headerFieldValue];
+        self.responseAllHeaderFields = [NSString stringWithFormat:@"%@%@:%@\n",self.responseAllHeaderFields,key,headerFieldValue];
     }
     
     if ( self.responseAllHeaderFields.length>1 ) {
         if ([[self.responseAllHeaderFields substringFromIndex:self.responseAllHeaderFields.length-1] isEqualToString:@"\n"]) {
-            self.responseAllHeaderFields=[self.responseAllHeaderFields substringToIndex:self.responseAllHeaderFields.length-1];
+            self.responseAllHeaderFields = [self.responseAllHeaderFields substringToIndex:self.responseAllHeaderFields.length-1];
         }
     }
 }

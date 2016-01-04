@@ -16,6 +16,8 @@
 @property (nonatomic, copy) NSString *connectId;
 @property (nonatomic, copy) NSString *JSONString;
 @property (nonatomic, assign) double requestInterval;
+@property (nonatomic, assign) CFAbsoluteTime startTime;
+@property (nonatomic, assign) CFAbsoluteTime endTime;
 
 @property (nonatomic, assign) double requestTimeoutInterval;
 @property (nonatomic, copy) NSString *requestURLString;
