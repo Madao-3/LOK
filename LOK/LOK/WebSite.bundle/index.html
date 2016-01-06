@@ -9,8 +9,8 @@
 </head>
 <body>
  
-  <header class="navbar navbar-static-top bs-docs-nav" id="top" role="banner">
-    <div class="container"> 
+  <!-- <header class="navbar navbar-static-top bs-docs-nav" id="top" role="banner">
+    <div class="container">
       <div class="navbar-header">
         <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
           <span class="sr-only">Toggle navigation</span>
@@ -29,7 +29,7 @@
         </ul>
       </nav>
     </div>
-  </header>
+  </header> -->
  
  
  
@@ -83,13 +83,13 @@
         <p class="lead" v-if="start_time">
           Start at : <time id="start_time" datetime="{{start_time}}"></time>
         </p>
-        <p class="lead">
+        <!-- <p class="lead">
           current path: {{path}}
-        </p>
+        </p> -->
       </div>
     </div>
   </div>
-  <div class='container-fluid'>
+  <div class='container-fluid main-container'>
     <div class='row'>
       <div class='col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1 main'>
         <!-- <p>
@@ -119,17 +119,16 @@
           <li role="presentation" class="active">
             <a href="#">requests</a>
           </li>
-          <li role="presentation">
+          <!-- <li role="presentation">
             <a href="#">event</a>
-          </li>
+          </li> -->
           <li role="presentation" class="Dropdown pull-right" id="request_filter">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"> Filter <span class="caret"></span> </a>
             <ul class="dropdown-menu">
-              <li><a href="#">event</a></li>
-              <li><a href="#">Another action</a></li>
-              <li><a href="#">Something else here</a></li>
+              <li><a href="#" data-type="all">json</a></li>
+              <li><a href="#" data-type="all">image</a></li>
               <li role="separator" class="divider"></li>
-              <li><a href="#">Separated link</a></li>
+              <li><a href="#" data-type="all">All</a></li>
             </ul>
           </li>
         </ul>
@@ -149,14 +148,14 @@
               </tr>
             </thead>
             <tbody id="requests_list">
-              <tr v-for="request in list" data-index="{{ $index }}">
+              <tr v-for="request in list | filter_request filter_type" data-index="{{ $index }}">
                 <td>
                   <div class="base_info_block">
                     <span class="method method-{{request.requestHTTPMethod}}">{{request.requestHTTPMethod}}</span>
                     <span class="status status-{{request.requestHTTPMethod}}">{{request.responseStatusCode}}</span>
                   </div>
                 </td>
-                <td title="{{request.time}}">{{request.time.toFixed(2)}}</td>
+                <td title="{{request.time}}">{{request.time.toFixed(2)}}s</td>
                 <td>{{ date_format(request) }}</td>
                 <td>{{(request.responseDataSize/1024).toFixed(2)}}kb</td>
                 <td title="{{request.requestURLString}}" class="response-data-url">
@@ -190,16 +189,16 @@
 <!--MODAL -->
   <div id="request-result-block">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    <h5></h5>
+    <p class="title"></p>
     
     
 
     <div id="JSON-body" class="request-result-body">
 
     </div>
-    <div class="result-block-bottom">
+    <!-- <div class="result-block-bottom">
       <button id="submit-block" class="btn btn-info">submit</button>
-    </div>
+    </div> -->
   </div>
   
   <div class="modal fade" tabindex="-1" role="dialog" id="request-result-modal">

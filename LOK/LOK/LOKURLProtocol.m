@@ -158,7 +158,6 @@ didReceiveResponse:(NSURLResponse *)response {
 
 - (void)connection:(NSURLConnection *)connection
     didReceiveData:(NSData *)data {
-    data = [data copy];
     [[self client] URLProtocol:self didLoadData:data];
     [self.data appendData:data];
 }

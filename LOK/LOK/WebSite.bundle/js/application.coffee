@@ -3,11 +3,25 @@ window.Application =
     @setup_socket()
     @setup_chart()
     @event_bind()
-    # @requests_list.show_content({requestURLString:"dsadsadasdsa",responseMIMEType:'application/json'})
+    Vue.filter 'filter_request', (list,filter)->
+      if filter != 'all'
+        l = []
+        for i in list
+          if i.responseMIMEType.match filter
+            l.push i
+        return l
+      else
+        return list
+  
+  
+
+  
+
   requests_list : new Vue({
     el: '#requests_list',
     data: 
       list: []
+      filter_type: "all"
     methods:
       params_list_html: (request)->
         url         = new URL(request.requestURLString)
@@ -16,8 +30,11 @@ window.Application =
         html_string = ""
         for path,index in path_list
           continue unless path.length
-          html_string += "<label class='label label-info'>#{path}</label>"
-        if params_list.length > 0
+          className = 'info'
+          if path[path.length-1] == "s"
+            className = 'primary'
+          html_string += "<label class='label label-#{className}'>#{path}</label>"
+        if params_list.length > 1
           html_string += "<label class='label label-warning'>?</label>"
         for param,index in params_list
           params = param.split('=')
@@ -26,6 +43,7 @@ window.Application =
         
       date_format: (request)->
         moment.unix(+request.datetime).format("h:mm:ss a")
+        
       show_content: (request)->
         $('.request-result').hide()
         window.fuck = request
@@ -34,7 +52,7 @@ window.Application =
             $('#request-result-block').animate(
               right : 0
             ,300)
-            .find('h5').text("#{request.requestHTTPMethod} - #{request.requestURLString.slice(0,40)+"..."}")
+            .find('.title').text("#{request.requestHTTPMethod} - #{request.requestURLString}")
             data = JSON.parse request.JSONString
             $.hulk '#JSON-body', data, (data)->
               console.log(data)
@@ -101,7 +119,6 @@ window.Application =
             $("#start_time").text(moment.unix(+data.start_time).fromNow())
           ,100)
           setInterval(->
-            console.log moment.unix(+data.start_time).fromNow
             $("#start_time").text(moment.unix(+data.start_time).fromNow())
           ,60000)
           break
@@ -151,25 +168,42 @@ window.Application =
     )
     option = 
       pointDot      : false
+      showTooltips  : false
     cpu_ctx = $("#cpu_chart").get(0).getContext("2d")
     @cpu_chart = new Chart(cpu_ctx).Line(@cpu_data, {
       scaleLabel : "<%=value%>%"
       pointDot      : false
+      showTooltips: false
     })
     memory_ctx = $("#memory_chart").get(0).getContext("2d")
     @memory_chart = new Chart(memory_ctx).Line(@memory_data, {
       scaleLabel : "<%=value%>MB"
       pointDot   : false
       animation  : false 
+      showTooltips: false
     })
     fps_ctx = $("#fps_chart").get(0).getContext("2d")
     @fps_chart = new Chart(fps_ctx).Line(@fps_data, option)
 
+  # filter_request_list : (type)->
+    
+
   event_bind : ->
     _this = @
+    
+
     $('body').tooltip({
         selector: '[data-toggle="tooltip"]'
     })
+    
+    $('#request_filter li a').on "click",->
+      _this.requests_list.filter_type = $(@).text()
+    
+    $('#request-result-block .close').click ->
+      $('#request-result-block').animate({
+        right: -$(window).width()
+      },300)
+
     $('.result-block-bottom .btn').click ->
       data = $.hulkSmash('#JSON-body')
       _this.socket.send(JSON.stringify(data))
@@ -188,6 +222,9 @@ window.Application =
       else
         return
       return message
+  
+  data_store : ->
+    
   
   chart_max_count : 150
   cpu_data : 
@@ -214,58 +251,6 @@ window.Application =
         data: []
       }]
 
-
-
-  
-  
-
-
-#
-#
-#
-#
-# Chart.defaults.global =
-#   animation: true
-#   animationSteps: 60
-#   animationEasing: "easeOutQuart"
-#   showScale: true
-#   scaleOverride: false
-#   scaleSteps: null
-#   scaleStepWidth: null
-#   scaleStartValue: null
-#   scaleLineColor: "rgba(0,0,0,.1)"
-#   scaleLineWidth: 1
-#   scaleShowLabels: true
-#   scaleLabel: "<%=value%>"
-#   scaleIntegersOnly: false
-#   scaleBeginAtZero: false
-#   scaleFontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif"
-#   scaleFontSize: 12,
-#   scaleFontStyle: "normal",
-#   scaleFontColor: "#666",
-#   responsive: true
-#   maintainAspectRatio: true
-#   showTooltips: false
-#   customTooltips: false
-#   tooltipEvents: ["mousemove", "touchstart", "touchmove"]
-#   tooltipFillColor: "rgba(0,0,0,0.8)"
-#   tooltipFontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif"
-#   tooltipFontSize: 14
-#   tooltipFontStyle: "normal"
-#   tooltipFontColor: "#fff"
-#   tooltipTitleFontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif"
-#   tooltipTitleFontSize: 14
-#   tooltipTitleFontStyle: "bold"
-#   tooltipTitleFontColor: "#fff"
-#   tooltipYPadding: 6
-#   tooltipXPadding: 6
-#   tooltipCaretSize: 8
-#   tooltipCornerRadius: 6
-#   tooltipXOffset: 10
-#   tooltipTemplate: ""
-#   multiTooltipTemplate: ""
-#   onAnimationProgress: null
-#   onAnimationComplete: null
   
 $ ->
   Application.init()

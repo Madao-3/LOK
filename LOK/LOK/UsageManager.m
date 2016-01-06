@@ -19,7 +19,7 @@
              @"cpu_usage"    : @(cpu_usage()),
              @"fps"          : @([LOKFrameCounter shareCounter].fps),
              @"thread_count" : @(getThreadsCount()),
-             @"viewcontroller_path" : [self currentViewControllerPath],
+//             @"viewcontroller_path" : [self currentViewControllerPath],
              };
 }
 

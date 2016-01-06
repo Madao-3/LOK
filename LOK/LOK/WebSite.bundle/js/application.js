@@ -4,31 +4,51 @@
     init: function() {
       this.setup_socket();
       this.setup_chart();
-      return this.event_bind();
+      this.event_bind();
+      return Vue.filter('filter_request', function(list, filter) {
+        var i, j, l, len;
+        if (filter !== 'all') {
+          l = [];
+          for (j = 0, len = list.length; j < len; j++) {
+            i = list[j];
+            if (i.responseMIMEType.match(filter)) {
+              l.push(i);
+            }
+          }
+          return l;
+        } else {
+          return list;
+        }
+      });
     },
     requests_list: new Vue({
       el: '#requests_list',
       data: {
-        list: []
+        list: [],
+        filter_type: "all"
       },
       methods: {
         params_list_html: function(request) {
-          var html_string, i, index, j, len, len1, param, params, params_list, path, path_list, url;
+          var className, html_string, index, j, k, len, len1, param, params, params_list, path, path_list, url;
           url = new URL(request.requestURLString);
           path_list = url.pathname.split('/');
           params_list = url.search.substr(1, url.search.length).split('&');
           html_string = "";
-          for (index = i = 0, len = path_list.length; i < len; index = ++i) {
+          for (index = j = 0, len = path_list.length; j < len; index = ++j) {
             path = path_list[index];
             if (!path.length) {
               continue;
             }
-            html_string += "<label class='label label-info'>" + path + "</label>";
+            className = 'info';
+            if (path[path.length - 1] === "s") {
+              className = 'primary';
+            }
+            html_string += "<label class='label label-" + className + "'>" + path + "</label>";
           }
-          if (params_list.length > 0) {
+          if (params_list.length > 1) {
             html_string += "<label class='label label-warning'>?</label>";
           }
-          for (index = j = 0, len1 = params_list.length; j < len1; index = ++j) {
+          for (index = k = 0, len1 = params_list.length; k < len1; index = ++k) {
             param = params_list[index];
             params = param.split('=');
             html_string += "<label class='label label-success'  data-toggle='tooltip' data-placement='bottom' title='" + params[1] + "'>" + params[0] + "</label>";
@@ -46,7 +66,7 @@
             case 'application/json':
               $('#request-result-block').animate({
                 right: 0
-              }, 300).find('h5').text(request.requestHTTPMethod + " - " + (request.requestURLString.slice(0, 40) + "..."));
+              }, 300).find('.title').text(request.requestHTTPMethod + " - " + request.requestURLString);
               data = JSON.parse(request.JSONString);
               $.hulk('#JSON-body', data, function(data) {
                 console.log(data);
@@ -114,7 +134,6 @@
               return $("#start_time").text(moment.unix(+data.start_time).fromNow());
             }, 100);
             setInterval(function() {
-              console.log(moment.unix(+data.start_time).fromNow);
               return $("#start_time").text(moment.unix(+data.start_time).fromNow());
             }, 60000);
             break;
@@ -169,18 +188,21 @@
         });
       });
       option = {
-        pointDot: false
+        pointDot: false,
+        showTooltips: false
       };
       cpu_ctx = $("#cpu_chart").get(0).getContext("2d");
       this.cpu_chart = new Chart(cpu_ctx).Line(this.cpu_data, {
         scaleLabel: "<%=value%>%",
-        pointDot: false
+        pointDot: false,
+        showTooltips: false
       });
       memory_ctx = $("#memory_chart").get(0).getContext("2d");
       this.memory_chart = new Chart(memory_ctx).Line(this.memory_data, {
         scaleLabel: "<%=value%>MB",
         pointDot: false,
-        animation: false
+        animation: false,
+        showTooltips: false
       });
       fps_ctx = $("#fps_chart").get(0).getContext("2d");
       return this.fps_chart = new Chart(fps_ctx).Line(this.fps_data, option);
@@ -190,6 +212,14 @@
       _this = this;
       $('body').tooltip({
         selector: '[data-toggle="tooltip"]'
+      });
+      $('#request_filter li a').on("click", function() {
+        return _this.requests_list.filter_type = $(this).text();
+      });
+      $('#request-result-block .close').click(function() {
+        return $('#request-result-block').animate({
+          right: -$(window).width()
+        }, 300);
       });
       $('.result-block-bottom .btn').click(function() {
         var data;
@@ -215,6 +245,7 @@
         return message;
       });
     },
+    data_store: function() {},
     chart_max_count: 150,
     cpu_data: {
       labels: [],
