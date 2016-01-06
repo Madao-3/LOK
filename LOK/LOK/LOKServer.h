@@ -15,6 +15,9 @@
 @property (nonatomic, copy) NSString *listeningPort;
 
 @property (nonatomic, assign) NSInteger maxConnectCount;
+@property (nonatomic, assign) id updateData;
+@property (nonatomic, assign) BOOL debugMode;
+@property (nonatomic, strong) NSMutableArray *socketList;
 
 - (void)setServerStart:(BOOL)isStart;
 + (instancetype)shareServer;

@@ -7,6 +7,7 @@
 //
 
 #import "LOKModel.h"
+#import "LOKServer.h"
 
 @interface LOKModel ()
 @end
@@ -26,6 +27,7 @@
 - (NSString *)messageString {
     if (!_messageString) {
         NSArray *keyList = @[@"_id",
+                             @"datetime",
                              @"connectId",
                              @"JSONString",
                              @"requestTimeoutInterval",
@@ -40,7 +42,8 @@
                              @"responseTextEncodingName",
                              @"responseSuggestedFilename",
                              @"responseAllHeaderFields",
-                             @"responseExpectedContentLength"];
+                             @"responseExpectedContentLength"
+                             ];
         NSMutableDictionary *dict = [@{} mutableCopy];
         for (NSString *key in keyList) {
             id value = [self valueForKey:key];
@@ -54,7 +57,6 @@
             }
         }
         dict[@"time"] = @(self.endTime - self.startTime);
-        
         NSDictionary *result = @{@"type":@"request",@"data":dict};
         NSData *jsonData     = [NSJSONSerialization dataWithJSONObject:result options:0 error:nil];
         _messageString       = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];

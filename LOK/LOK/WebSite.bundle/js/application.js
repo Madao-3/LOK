@@ -3,12 +3,61 @@
   window.Application = {
     init: function() {
       this.setup_socket();
-      return this.setup_chart();
+      this.setup_chart();
+      return this.event_bind();
     },
     requests_list: new Vue({
       el: '#requests_list',
       data: {
         list: []
+      },
+      methods: {
+        params_list_html: function(request) {
+          var html_string, i, index, j, len, len1, param, params, params_list, path, path_list, url;
+          url = new URL(request.requestURLString);
+          path_list = url.pathname.split('/');
+          params_list = url.search.substr(1, url.search.length).split('&');
+          html_string = "";
+          for (index = i = 0, len = path_list.length; i < len; index = ++i) {
+            path = path_list[index];
+            if (!path.length) {
+              continue;
+            }
+            html_string += "<label class='label label-info'>" + path + "</label>";
+          }
+          if (params_list.length > 0) {
+            html_string += "<label class='label label-warning'>?</label>";
+          }
+          for (index = j = 0, len1 = params_list.length; j < len1; index = ++j) {
+            param = params_list[index];
+            params = param.split('=');
+            html_string += "<label class='label label-success'  data-toggle='tooltip' data-placement='bottom' title='" + params[1] + "'>" + params[0] + "</label>";
+          }
+          return html_string;
+        },
+        date_format: function(request) {
+          return moment.unix(+request.datetime).format("h:mm:ss a");
+        },
+        show_content: function(request) {
+          var data, image;
+          $('.request-result').hide();
+          window.fuck = request;
+          switch (request.responseMIMEType) {
+            case 'application/json':
+              $('#request-result-block').animate({
+                right: 0
+              }, 300).find('h5').text(request.requestHTTPMethod + " - " + (request.requestURLString.slice(0, 40) + "..."));
+              data = JSON.parse(request.JSONString);
+              $.hulk('#JSON-body', data, function(data) {
+                console.log(data);
+              });
+              break;
+            case 'image/jpeg':
+              image = $('<img>');
+              image.attr('src', request.requestURLString);
+              return $('#request-result-modal').modal('show').find('.modal-title').html("<a href='" + request.requestURLString + "' target='blank'>" + (request.requestURLString.slice(0, 40) + "...") + "</a>").end().find('.request-result-body').hide().end().find('.image-body').show().html(image);
+          }
+        }
       }
     }),
     base_info: new Vue({
@@ -35,7 +84,6 @@
       return year + "-" + month + "-" + dates + "T" + hours + ":" + mins + ":" + sec + "Z";
     },
     pad: function(number) {
-      console.log(number);
       if (number < 10) {
         return '0' + number;
       }
@@ -44,13 +92,12 @@
     setup_socket: function() {
       var _this;
       _this = this;
-      this.socket = new WebSocket("ws://" + location.hostname + ":" + (+location.port + 1));
+      this.socket = new WebSocket("ws://192.168.10.183:12356");
       this.socket.onopen = function() {
         return _this.socket.send('hello world and what is your name?');
       };
       this.socket.onmessage = function(event) {
-        var data, date;
-        console.log(event);
+        var data;
         data = JSON.parse(event.data);
         switch (data.type) {
           case "request":
@@ -62,13 +109,13 @@
           case "base_info":
             _this.base_info.app_name = data.name;
             _this.base_info.memory_size = data.memory_size;
-            date = new Date(data.start_time.replace('GMT', ''));
-            _this.base_info.start_time = _this.UTCDateString(date);
+            _this.base_info.start_time = data.start_time;
             setTimeout(function() {
-              return $("time.timeago").timeago();
+              return $("#start_time").text(moment.unix(+data.start_time).fromNow());
             }, 100);
             setInterval(function() {
-              return $("time.timeago").timeago();
+              console.log(moment.unix(+data.start_time).fromNow);
+              return $("#start_time").text(moment.unix(+data.start_time).fromNow());
             }, 60000);
             break;
         }
@@ -98,7 +145,6 @@
       if (this.cpu_chart.datasets[0].points.length > this.chart_max_count) {
         this.cpu_chart.removeData();
       }
-      this.cpu_chart.update();
       this.memory_data.datasets[0].data.push(data.memory_usage);
       this.memory_chart.addData([data.memory_usage >> 20], '');
       if (this.memory_chart.datasets[0].points.length > this.chart_max_count) {
@@ -133,12 +179,26 @@
       memory_ctx = $("#memory_chart").get(0).getContext("2d");
       this.memory_chart = new Chart(memory_ctx).Line(this.memory_data, {
         scaleLabel: "<%=value%>MB",
-        pointDot: false
+        pointDot: false,
+        animation: false
       });
       fps_ctx = $("#fps_chart").get(0).getContext("2d");
       return this.fps_chart = new Chart(fps_ctx).Line(this.fps_data, option);
     },
     event_bind: function() {
+      var _this;
+      _this = this;
+      $('body').tooltip({
+        selector: '[data-toggle="tooltip"]'
+      });
+      $('.result-block-bottom .btn').click(function() {
+        var data;
+        data = $.hulkSmash('#JSON-body');
+        _this.socket.send(JSON.stringify(data));
+        return $('#request-result-block').animate({
+          right: -$(window).width()
+        }, 300);
+      });
       $('.nav-tabs a').click(function(e) {
         e.preventDefault();
         return $(this).tab('show');
@@ -186,50 +246,6 @@
         }
       ]
     }
-  };
-
-  Chart.defaults.global = {
-    animation: true,
-    animationSteps: 60,
-    animationEasing: "easeOutQuart",
-    showScale: true,
-    scaleOverride: false,
-    scaleSteps: null,
-    scaleStepWidth: null,
-    scaleStartValue: null,
-    scaleLineColor: "rgba(0,0,0,.1)",
-    scaleLineWidth: 1,
-    scaleShowLabels: true,
-    scaleLabel: "<%=value%>",
-    scaleIntegersOnly: false,
-    scaleBeginAtZero: false,
-    scaleFontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
-    scaleFontSize: 12,
-    scaleFontStyle: "normal",
-    scaleFontColor: "#666",
-    responsive: true,
-    maintainAspectRatio: true,
-    showTooltips: false,
-    customTooltips: false,
-    tooltipEvents: ["mousemove", "touchstart", "touchmove"],
-    tooltipFillColor: "rgba(0,0,0,0.8)",
-    tooltipFontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
-    tooltipFontSize: 14,
-    tooltipFontStyle: "normal",
-    tooltipFontColor: "#fff",
-    tooltipTitleFontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
-    tooltipTitleFontSize: 14,
-    tooltipTitleFontStyle: "bold",
-    tooltipTitleFontColor: "#fff",
-    tooltipYPadding: 6,
-    tooltipXPadding: 6,
-    tooltipCaretSize: 8,
-    tooltipCornerRadius: 6,
-    tooltipXOffset: 10,
-    tooltipTemplate: "",
-    multiTooltipTemplate: "",
-    onAnimationProgress: null,
-    onAnimationComplete: null
   };
 
   $(function() {

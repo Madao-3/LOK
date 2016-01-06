@@ -38,7 +38,7 @@
     <div class='container-fluid'>
       <div class='col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1' id="base_info">
 
-        <div class="progress-pie-chart pull-right">
+        <div class="progress-pie-chart pull-right" v-if="cpu_percent">
           <div class="ppc-progress">
             <div class="ppc-progress-fill" style="transform:rotate({{360*cpu_percent/100}}deg);"></div>
           </div>
@@ -50,7 +50,7 @@
           </div>
         </div>
           
-        <div class="progress-pie-chart pull-right">
+        <div class="progress-pie-chart pull-right" v-if="memory_percent">
           <div class="ppc-progress">
             <div class="ppc-progress-fill" style="transform:rotate({{360*memory_percent/100}}deg);"></div>
           </div>
@@ -62,7 +62,7 @@
           </div>
         </div>
 
-        <div class="progress-pie-chart pull-right">
+        <div class="progress-pie-chart pull-right" v-if="fps">
           <div class="ppc-progress">
             <div class="ppc-progress-fill" style="transform:rotate({{360*(fps/60)}}deg);"></div>
           </div>
@@ -81,7 +81,7 @@
           there is {{count}} thread runing
         </p>
         <p class="lead" v-if="start_time">
-          Start at : <time class="timeago" datetime="{{start_time}}"></time>
+          Start at : <time id="start_time" datetime="{{start_time}}"></time>
         </p>
         <p class="lead">
           current path: {{path}}
@@ -92,8 +92,11 @@
   <div class='container-fluid'>
     <div class='row'>
       <div class='col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1 main'>
-        <h1 class='page-header'>Dashboard</h1>
-
+        <!-- <p>
+          <a href="#" id="reload_chart">
+            reload chart
+          </a>
+        </p> -->
         <div class='row'>
           <div class='col-xs-12 col-sm-12 col-md-4 col-lg-5'>
             <h4>CPU</h4>
@@ -138,34 +141,35 @@
               <tr>
                 <th>Method</th>
                 <th>Time</th>
+                <th>Datetime</th>
                 <th>Size</th>
                 <th>requestURLString</th>
-                <th>responseAllHeaderFields</th>
-                <th>responseStatusCode</th>
-                <th>Content</th>
+                <!-- <th>responseAllHeaderFields</th> -->
                 <th>responseMIMEType</th>
               </tr>
             </thead>
             <tbody id="requests_list">
-              <tr v-for="request in list">
+              <tr v-for="request in list" data-index="{{ $index }}">
                 <td>
                   <div class="base_info_block">
                     <span class="method method-{{request.requestHTTPMethod}}">{{request.requestHTTPMethod}}</span>
                     <span class="status status-{{request.requestHTTPMethod}}">{{request.responseStatusCode}}</span>
                   </div>
                 </td>
-                <td>{{request.time}}</td>
-                <td>{{request.responseDataSize}}</td>
-                <td title="{{request.requestURLString}}">
-                  <a href="{{request.requestURLString}}" v-if="request.requestURLString.length > 30">
-                    {{request.requestURLString.slice(0,30)+"..."}}
+                <td title="{{request.time}}">{{request.time.toFixed(2)}}</td>
+                <td>{{ date_format(request) }}</td>
+                <td>{{(request.responseDataSize/1024).toFixed(2)}}kb</td>
+                <td title="{{request.requestURLString}}" class="response-data-url">
+                  <a href="#" v-if="request.requestURLString.length > 30" v-on:click="show_content(request)">
+                    {{request.requestURLString.slice(0,40)+"..."}}
                   </a>
-                  <a href="{{request.requestURLString}}" v-else>
+                  <a href="#" v-else v-on:click="show_content(request)">
                     {{request.requestURLString}}
                   </a>
+                  <div class="params-list" v-if="request.responseMIMEType == 'text/javascript' ||request.responseMIMEType == 'application/json'">
+                    {{{params_list_html(request)}}}
+                  </div>
                 </td>
-                <td>{{request.responseAllHeaderFields}}</td>
-                <td>{{JSON.stringify(request.JSONString)}}</td>
                 <td>{{request.responseMIMEType}}</td>
               </tr>
             </tbody>
@@ -175,10 +179,52 @@
     </div>
   </div>
   <script type='text/javascript' src='./js/jquery-2.1.4.min.js'></script>
-  <script type='text/javascript' src='./js/jquery.timeago.js'></script>
+  <script type='text/javascript' src='./js/moment.js'></script>
   <script type='text/javascript' src='./js/vue.js'></script>
   <script type='text/javascript' src='./js/Chart.min.js'></script>
   <script type='text/javascript' src='./js/bootstrap.min.js'></script>  
+  <script type='text/javascript' src='./js/hulk.min.js'></script>  
   <script type='text/javascript' src="./js/application.js"></script>  
+  
+  
+<!--MODAL -->
+  <div id="request-result-block">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <h5></h5>
+    
+    
+
+    <div id="JSON-body" class="request-result-body">
+
+    </div>
+    <div class="result-block-bottom">
+      <button id="submit-block" class="btn btn-info">submit</button>
+    </div>
+  </div>
+  
+  <div class="modal fade" tabindex="-1" role="dialog" id="request-result-modal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title"></h4>
+        </div>
+        <div class="modal-body">
+
+          <div class="request-result-body image-body">
+            
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+<!-- -->
+  
+  
 </body>
 </html>

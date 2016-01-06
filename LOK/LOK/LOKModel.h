@@ -34,5 +34,8 @@
 @property (nonatomic, copy) NSString *responseAllHeaderFields;
 @property (nonatomic, assign) NSString *responseExpectedContentLength;
 
+
+@property (nonatomic, copy) NSNumber *datetime;
+
 @property (nonatomic, copy) NSString *messageString;
 @end

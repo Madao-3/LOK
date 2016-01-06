@@ -11,7 +11,10 @@ Pod::Spec.new do |s|
   s.social_media_url = "https://twitter.com/madao_chris/"
   s.platform         = :ios, "7.0"
   s.source           = { :git => "https://github.com/Madao-3/LOK", :tag => "0.0.1" }
-  s.source_files     = 'LOK/LOK/**/*.{h,m}','LOK/LOK/**/WebSite.bundle'
+  s.source_files     = 'LOK/LOK/**/*.{h,m}'
+  s.resource_bundles = {
+    'WebSite' => ['LOK/LOK/WebSite.bundle/*']
+  }
   s.requires_arc     = true
   # s.resource  = "icon.png"
   # s.resources = "Resources/*.png"

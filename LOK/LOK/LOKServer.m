@@ -22,8 +22,6 @@
 @interface LOKServer ()<PSWebSocketServerDelegate>
 @property (nonatomic, strong) RoutingHTTPServer *httpServer;
 @property (nonatomic, strong) PSWebSocketServer *socketServer;
-@property (nonatomic, strong) NSMutableArray *socketList;
-@property (nonatomic, copy) NSString *startTimeString;
 @end
 
 @implementation LOKServer
@@ -33,6 +31,8 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         shareServer = [[self alloc] init];
+        shareServer.debugMode = YES;
+        shareServer.updateData = nil;
     });
     return shareServer;
 }
@@ -41,7 +41,6 @@
 - (void)serverStart {
     NSError *error;
     if([self.httpServer start:&error]) {
-        self.startTimeString = [[self.class defaultDateFormatter] stringFromDate:[NSDate date]];
         NSLog(@"Started HTTP Server on port %hu", [self.httpServer listeningPort]);
         NSString *webPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"WebSite.bundle"];
         NSLog(@"Setting document root: %@", webPath);
@@ -52,12 +51,9 @@
         NSString *urlString = [NSString stringWithFormat:@"http://%@:%hu",self.getIPAddress,[self.httpServer listeningPort]];
         [pb setString:urlString];
         NSLog(@"url did paste:%@",urlString);
-//
-
     } else {
         NSLog(@"Error starting HTTP Server: %@", error);
     }
-    
 }
 
 - (void)setupSocket {
@@ -81,12 +77,11 @@
             [socket send:jsonString];
         }
     }
-
-    
 }
 
 - (void)newRequestDidHandle:(LOKModel *)model {
     if (self.socketList.count > 0) {
+        model.datetime = @([[NSDate date] timeIntervalSince1970]);
         NSString *jsonString = model.messageString;
         for (PSWebSocket *socket in self.socketList) {
             [socket send:jsonString];
@@ -105,13 +100,20 @@
 }
 
 - (void)server:(PSWebSocketServer *)server webSocket:(PSWebSocket *)webSocket didReceiveMessage:(id)message {
+    if ([self.socketList containsObject:webSocket]) {
+        NSData *data = [message dataUsingEncoding:NSUTF8StringEncoding];
+        if (data) {
+            [LOKServer shareServer].updateData = data;
+        }
+        return;
+    }
     if (self.socketList.count < MAX_SOCKET_CONNECT_COUNT) {
         NSString *name = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
         if (!name) {
             name = @"";
         }
         NSError * err;
-        NSData * jsonData = [NSJSONSerialization dataWithJSONObject:@{@"type":@"base_info",@"name":name,@"start_time":self.startTimeString,@"memory_size":@([NSProcessInfo processInfo].physicalMemory)}
+        NSData * jsonData = [NSJSONSerialization dataWithJSONObject:@{@"type":@"base_info",@"name":name,@"start_time":self.serverId,@"memory_size":@([NSProcessInfo processInfo].physicalMemory)}
                                                             options:0 error:&err];
         NSString * jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
         [webSocket send:jsonString];
@@ -120,6 +122,7 @@
 
 }
 - (void)server:(PSWebSocketServer *)server webSocketDidOpen:(PSWebSocket *)webSocket {
+    
 }
 - (void)server:(PSWebSocketServer *)server webSocket:(PSWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean {
     [self.socketList removeObject:webSocket];
@@ -127,6 +130,8 @@
 }
 - (void)server:(PSWebSocketServer *)server webSocket:(PSWebSocket *)webSocket didFailWithError:(NSError *)error {
     [self.socketList removeObject:webSocket];
+    [LOKServer shareServer].debugMode = NO;
+    
     NSLog(@"Server websocket did fail with error: %@", error);
 }
 
@@ -173,7 +178,7 @@
 
 - (NSString *)serverId {
     if (!_serverId) {
-        _serverId = [[self.class defaultDateFormatter] stringFromDate:[NSDate date]];
+        _serverId = [NSString stringWithFormat:@"%@",@([[NSDate date] timeIntervalSince1970])];
     }
     return _serverId;
 }

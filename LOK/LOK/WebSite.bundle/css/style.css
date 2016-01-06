@@ -110,7 +110,7 @@ canvas {
   display: block;
   font-size: 2.6em;
   font-weight: bold;
-  color: #81CE97;
+  color: #c2c2c2;
 }
 .ppc-percents .mark-label {
   font-size: 12px;
@@ -120,4 +120,159 @@ canvas {
 .pcc-percents-wrapper {
   display: table-cell;
   vertical-align: middle;
+}
+
+/**
+ * This file contains layout instructions for Hulk text inputs
+ */
+.hulk-map-key {
+  font-weight: bold;
+  height: 12px;
+  font-size: 12px;
+  margin-left: 5px;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none !important;
+}
+
+.hulk .symbol {
+  float: left;
+  font-weight: bold;
+  margin: 0;
+}
+
+.hulk .toggle-block {
+  margin: 0 10px;
+  float: left;
+  width: 15px;
+  height: 15px;
+  line-height: 12px;
+  display: block;
+  text-align: center;
+  background: #fff;
+  cursor: pointer;
+  font-size: 15px;
+  border: 1px solid #777;
+}
+
+.hulk .toggle-block:hover {
+  background: #999;
+}
+
+.hulk-map-value {
+  border: 1px solid transparent;
+  color: green;
+  transition: background-color .2s ease-out 0s;
+}
+
+textarea.hulk-map-value {
+  width: 100%;
+  height: 34px;
+}
+
+.hulk-map-value:hover, .hulk-map-value:focus {
+  border: 1px dashed #ddd;
+  background: #fafafa;
+  cursor: pointer;
+}
+
+.hulk-map-value {
+  line-height: 1;
+  padding: 2px 6px;
+  background: transparent;
+}
+
+
+.hulk-map-pair, .hulk-array {
+  border-left: 1px dashed #999;
+  margin-left: 30px; 
+  background: #fff;
+  transition: background-color .2s ease-out 0s;
+}
+
+.hulk-map-pair:hover, .hulk-array:hover {
+/*  background: #fafafa;*/
+}
+
+.hulk-map-add-pair {
+  margin-left: 40px; 
+}
+
+.hulk-separator {
+  margin: 0;
+  position: relative;
+  display: inline-block; 
+}
+
+.hulk-collapse-item {
+  margin-bottom: 10px;
+  margin-left: 10px; 
+}
+
+.hulk .badge {
+  margin-left: 10px;
+}
+
+
+#request-result-block {
+  z-index: 99999;
+  position: fixed;
+  top: 0;
+  right: -50%;
+  width: 50%;
+  height: 100%;
+  background: #fafafa;
+  box-shadow: 0 0 6px rgba(0,0,0,0.6);
+  padding: 10px 20px;
+}
+
+#request-result-block .close {
+  color: #333;
+  font-size: 30px;
+  opacity: 1;
+}
+
+#request-result-block h5 {
+  margin-bottom: 15px;
+}
+
+
+#JSON-body {
+  overflow: auto;
+  height: 100%;
+  border: 1px solid rgba(0,0,0,0.1);
+  padding: 5px 0 200px 0;
+}
+.result-block-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background: rgba(203,203,203,0.8);
+}
+
+.result-block-bottom .btn {
+  width: 200px;
+  height: 60px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -100px;
+  margin-top: -30px;
+  font-size: 30px;
+}
+
+
+.image-body img {
+  width: 100%;
+}
+
+
+.params-list .label {
+  margin: 0 1px;
 }

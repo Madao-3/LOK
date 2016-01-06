@@ -16,11 +16,66 @@
 @property (nonatomic, strong) NSURLResponse *response;
 @property (nonatomic, strong) NSMutableData *data;
 @property (nonatomic, strong) LOKModel *model;
+
 @end
 
 @implementation LOKURLProtocol
 
 #pragma mark - private method
+- (void)addNewRequest {
+    if (!self.response) {
+        return;
+    }
+    self.model.endTime      = CFAbsoluteTimeGetCurrent();
+    self.model.lok_response = (NSHTTPURLResponse *)self.response;
+    NSString *mimeType      = self.response.MIMEType;
+    self.model.JSONString   = @"";
+    
+    NSLog(@"%@ ===== \n %@ ===== \n %@",mimeType,self.request,self.response);
+    if ([mimeType isEqualToString:@"application/json"]) {
+        self.model.JSONString = [[NSString alloc] initWithData:self.data encoding:NSUTF8StringEncoding];
+    } else if ([mimeType isEqualToString:@"text/javascript"]) {
+        NSString *jsonString = [[NSString alloc] initWithData:self.data encoding:NSUTF8StringEncoding];
+        jsonString = [NSString stringWithFormat:@"(%@);",jsonString];
+        NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+        self.model.JSONString = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                                options:NSJSONReadingMutableContainers
+                                                                  error:nil];
+        
+    } else if ([mimeType isEqualToString:@"text/html"]) {
+        self.model.JSONString = [[NSString alloc] initWithData:self.data encoding:NSUTF8StringEncoding];
+    } else if ([mimeType isEqualToString:@"application/xml"] ||[mimeType isEqualToString:@"text/xml"]) {
+        NSString *xmlString = [[NSString alloc]initWithData:self.data encoding:NSUTF8StringEncoding];
+        if (xmlString && xmlString.length>0) {
+            self.model.JSONString = xmlString;
+        }
+    }
+    if (self.model.responseDataSize < 0) {
+        if (self.data.length < 200) {
+            return;
+        }
+        self.model.responseDataSize = self.data.length;
+    }
+    [[LOKServer shareServer] newRequestDidHandle:self.model];
+}
+
+- (void)waitingForReplay {
+    __weak __typeof__(self) weakSelf = self;
+
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.05 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        if ([LOKServer shareServer].socketList.count == 0 || ![LOKServer shareServer].debugMode) {
+            return ;
+        }
+        if ([LOKServer shareServer].updateData) {
+            [[weakSelf client] URLProtocol:self didLoadData:[LOKServer shareServer].updateData];
+            [self.connection cancel];
+            [LOKServer shareServer].updateData = nil;
+            return;
+        }
+        [weakSelf waitingForReplay];
+    });
+}
+
 
 #pragma mark - NSURLProtocol Public Method
 + (void)load {
@@ -59,39 +114,11 @@
     self.connection = [[NSURLConnection alloc] initWithRequest:[[self class] canonicalRequestForRequest:self.request] delegate:self startImmediately:YES];
 #pragma clang diagnostic pop
     self.model.lok_request = self.request;
-
 }
 
 - (void)stopLoading {
+    [self addNewRequest];
     [self.connection cancel];
-    if (!self.response) {
-        return;
-    }
-    self.model.endTime      = CFAbsoluteTimeGetCurrent();
-    self.model.lok_response = (NSHTTPURLResponse *)self.response;
-    NSString *mimeType      = self.response.MIMEType;
-    self.model.JSONString   = @"";
-    if ([mimeType isEqualToString:@"application/json"]) {
-        self.model.JSONString = [NSJSONSerialization JSONObjectWithData:self.data
-                                                                    options:NSJSONReadingMutableContainers
-                                                                      error:nil];
-    } else if ([mimeType isEqualToString:@"text/javascript"]) {
-        NSString *jsonString = [[NSString alloc] initWithData:self.data encoding:NSUTF8StringEncoding];
-        jsonString = [NSString stringWithFormat:@"(%@);",jsonString];
-        NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
-        self.model.JSONString = [NSJSONSerialization JSONObjectWithData:jsonData
-                                                                    options:NSJSONReadingMutableContainers
-                                                                      error:nil];
-
-    } else if ([mimeType isEqualToString:@"text/html"]) {
-        self.model.JSONString = [[NSString alloc] initWithData:self.data encoding:NSUTF8StringEncoding];
-    } else if ([mimeType isEqualToString:@"application/xml"] ||[mimeType isEqualToString:@"text/xml"]) {
-        NSString *xmlString = [[NSString alloc]initWithData:self.data encoding:NSUTF8StringEncoding];
-        if (xmlString && xmlString.length>0) {
-            self.model.JSONString = xmlString;
-        }
-    }
-    [[LOKServer shareServer] newRequestDidHandle:self.model];
 }
 
 #pragma mark - NSURLConnectionDelegate
@@ -131,6 +158,7 @@ didReceiveResponse:(NSURLResponse *)response {
 
 - (void)connection:(NSURLConnection *)connection
     didReceiveData:(NSData *)data {
+    data = [data copy];
     [[self client] URLProtocol:self didLoadData:data];
     [self.data appendData:data];
 }
