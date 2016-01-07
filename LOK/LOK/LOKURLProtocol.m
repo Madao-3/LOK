@@ -8,7 +8,6 @@
 
 #import "LOKURLProtocol.h"
 #import "LOKServer.h"
-#import "LOKManager.h"
 #import "LOKModel.h"
 
 @interface LOKURLProtocol ()<NSURLConnectionDelegate, NSURLConnectionDataDelegate>
@@ -31,7 +30,6 @@
     NSString *mimeType      = self.response.MIMEType;
     self.model.JSONString   = @"";
     
-    NSLog(@"%@ ===== \n %@ ===== \n %@",mimeType,self.request,self.response);
     if ([mimeType isEqualToString:@"application/json"]) {
         self.model.JSONString = [[NSString alloc] initWithData:self.data encoding:NSUTF8StringEncoding];
     } else if ([mimeType isEqualToString:@"text/javascript"]) {
@@ -117,8 +115,9 @@
 }
 
 - (void)stopLoading {
-    [self addNewRequest];
     [self.connection cancel];
+    [self addNewRequest];
+
 }
 
 #pragma mark - NSURLConnectionDelegate

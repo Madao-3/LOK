@@ -9,7 +9,6 @@
 #import "LOKServer.h"
 #import "LOKURLSessionConfiguration.h"
 #import "LOKURLProtocol.h"
-#import "LOKManager.h"
 #import "UsageManager.h"
 #import <RoutingHTTPServer.h>
 #import <PocketSocket/PSWebSocketServer.h>
@@ -22,6 +21,7 @@
 @interface LOKServer ()<PSWebSocketServerDelegate>
 @property (nonatomic, strong) RoutingHTTPServer *httpServer;
 @property (nonatomic, strong) PSWebSocketServer *socketServer;
+@property (nonatomic, strong) NSTimer *usageTimer;
 @end
 
 @implementation LOKServer
@@ -38,6 +38,36 @@
 }
 
 #pragma mark - private method
+
+- (void)setServerStart:(BOOL)isStart {
+    [[NSUserDefaults standardUserDefaults] setBool:isStart forKey:@"LOKServerIsStart"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    if (!isStart) {
+        [NSURLProtocol unregisterClass:[LOKURLProtocol class]];
+        if (self.usageTimer) {
+            [self.usageTimer invalidate];
+            self.usageTimer = nil;
+        }
+        return;
+    }
+    [NSURLProtocol registerClass:[LOKURLProtocol class]];
+    [self serverStart];
+    self.usageTimer = [NSTimer scheduledTimerWithTimeInterval:0.3 target:self selector:@selector(updateUsage) userInfo:nil repeats:YES];
+}
+
+- (void)setServerStartWithPort:(NSInteger)port {
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"LOKServerIsStart"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    [NSURLProtocol registerClass:[LOKURLProtocol class]];
+    [self serverStartWithPort:port];
+    [NSTimer scheduledTimerWithTimeInterval:0.3 target:self selector:@selector(updateUsage) userInfo:nil repeats:YES];
+
+}
+
+- (void)serverStartWithPort:(NSInteger)port {
+    [self serverStart];
+}
+
 - (void)serverStart {
     NSError *error;
     if([self.httpServer start:&error]) {
@@ -165,15 +195,6 @@
         _socketList = [@[] mutableCopy];
     }
     return _socketList;
-}
-
-- (void)setServerStart:(BOOL)isStart {
-    [[NSUserDefaults standardUserDefaults] setBool:isStart forKey:@"LOKServerIsStart"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    [NSURLProtocol registerClass:[LOKURLProtocol class]];
-    [LOKManager defaultManager];
-    [self serverStart];
-    [NSTimer scheduledTimerWithTimeInterval:0.3 target:self selector:@selector(updateUsage) userInfo:nil repeats:YES];
 }
 
 - (NSString *)serverId {

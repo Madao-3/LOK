@@ -20,6 +20,7 @@
 @property (nonatomic, strong) NSMutableArray *socketList;
 
 - (void)setServerStart:(BOOL)isStart;
+- (void)setServerStartWithPort:(NSInteger)port;
 + (instancetype)shareServer;
 - (void)newRequestDidHandle:(LOKModel *)model;
 @end

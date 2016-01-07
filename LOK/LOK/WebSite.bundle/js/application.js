@@ -59,14 +59,21 @@
           return moment.unix(+request.datetime).format("h:mm:ss a");
         },
         show_content: function(request) {
-          var data, image;
+          var data, e, error, image, jsonObject;
           $('.request-result').hide();
           window.fuck = request;
           switch (request.responseMIMEType) {
             case 'application/json':
               $('#request-result-block').animate({
                 right: 0
-              }, 300).find('.title').text(request.requestHTTPMethod + " - " + request.requestURLString);
+              }, 300).find('.title').html("<label class='label label-info'>" + request.requestHTTPMethod + "</label> - " + request.requestURLString);
+              try {
+                jsonObject = jQuery.parseJSON(request.JSONString);
+              } catch (error) {
+                e = error;
+                $('#JSON-body').html(request.JSONString);
+                return;
+              }
               data = JSON.parse(request.JSONString);
               $.hulk('#JSON-body', data, function(data) {
                 console.log(data);
@@ -112,7 +119,7 @@
     setup_socket: function() {
       var _this;
       _this = this;
-      this.socket = new WebSocket("ws://192.168.10.183:12356");
+      this.socket = new WebSocket("ws://" + location.hostname + ":" + (+location.port + 1));
       this.socket.onopen = function() {
         return _this.socket.send('hello world and what is your name?');
       };

@@ -51,8 +51,13 @@ window.Application =
           when 'application/json'
             $('#request-result-block').animate(
               right : 0
-            ,300)
-            .find('.title').text("#{request.requestHTTPMethod} - #{request.requestURLString}")
+            ,300).find('.title').html("<label class='label label-info'>#{request.requestHTTPMethod}</label> - #{request.requestURLString}")
+            try
+              jsonObject = jQuery.parseJSON(request.JSONString);
+            catch e
+              $('#JSON-body').html(request.JSONString)
+              return
+
             data = JSON.parse request.JSONString
             $.hulk '#JSON-body', data, (data)->
               console.log(data)
@@ -96,8 +101,8 @@ window.Application =
     return number
   setup_socket : ->
     _this = @
-    # @socket = new WebSocket("ws://#{location.hostname}:#{+(location.port)+1}")
-    @socket = new WebSocket("ws://192.168.10.183:12356")
+    @socket = new WebSocket("ws://#{location.hostname}:#{+(location.port)+1}")
+    # @socket = new WebSocket("ws://192.168.10.183:12356")
     @socket.onopen = ->
       _this.socket.send('hello world and what is your name?')
 
