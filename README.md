@@ -9,7 +9,9 @@
 ## A lightweight and powerful iOS/OSX network library to make your debugging easier.
 
 LOK can analyze all your request with a single line code.
-> [[LOKServer shareServer] setServerStart:YES];
+```objc
+[[LOKServer shareServer] setServerStart:YES];
+```
 
 
 ![analyze all your request](http://ww2.sinaimg.cn/large/94053c2dgw1ezs5od47l4j20xc0gv77b.jpg)
