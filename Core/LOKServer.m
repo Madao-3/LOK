@@ -22,7 +22,8 @@
 
 
 
-#define MAX_SOCKET_CONNECT_COUNT 5
+static const NSInteger MAX_SOCKET_CONNECT_COUNT = 5;
+static const NSInteger DEFAULT_SERVER_PORT      = 12345;
 
 @interface LOKServer ()<PSWebSocketServerDelegate>
 @property (nonatomic, strong) RoutingHTTPServer *httpServer;
@@ -57,7 +58,7 @@
         return;
     }
     [NSURLProtocol registerClass:[LOKURLProtocol class]];
-    [self serverStart];
+    [self serverStartWithPort:DEFAULT_SERVER_PORT];
     self.usageTimer = [NSTimer scheduledTimerWithTimeInterval:0.3 target:self selector:@selector(updateUsage) userInfo:nil repeats:YES];
 }
 
@@ -71,11 +72,12 @@
 }
 
 - (void)serverStartWithPort:(NSInteger)port {
-    [self serverStart];
+    [self serverStart:port];
 }
 
-- (void)serverStart {
+- (void)serverStart:(NSInteger)port {
     NSError *error;
+    self.httpServer.port = port;
     if([self.httpServer start:&error]) {
         NSLog(@"Started HTTP Server on port %hu", [self.httpServer listeningPort]);
         NSString *webPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"WebSite.bundle"];
@@ -90,7 +92,9 @@
         [pb setString:urlString];
         #else
         NSPasteboard *pb = [NSPasteboard generalPasteboard];
-        [pb setString:urlString forType:NSPasteboardTypeString];
+        [pb clearContents];
+        NSArray *objectsToCopy = @[urlString];
+        [pb writeObjects:objectsToCopy];
         #endif
 
         NSLog(@"url did paste:%@",urlString);
@@ -198,7 +202,6 @@
 - (RoutingHTTPServer *)httpServer {
     if (!_httpServer) {
         _httpServer = [[RoutingHTTPServer alloc] init];
-        _httpServer.port = 12355;
     }
     return _httpServer;
 }

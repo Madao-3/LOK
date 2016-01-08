@@ -1,6 +1,5 @@
 Pod::Spec.new do |s|
   s.name         = "LOK"
-  s.version      = "0.1"
   s.version      = "0.0.1"
   s.summary      = "LOK - a powerful iOS network debug library and make you debug easier."
   s.homepage     = "https://github.com/Madao-3/LOK"
