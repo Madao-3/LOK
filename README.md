@@ -2,7 +2,8 @@
 
 ![LOK](https://img.shields.io/badge/LOK-0.0.1-red.svg)
 ![MIT](https://img.shields.io/github/license/mashape/apistatus.svg)
-![CocoaPods](https://img.shields.io/cocoapods/p/AFNetworking.svg?style=flat-square)
+![iOS](https://img.shields.io/badge/platform-iOS-LOK.svg)
+![OSX](https://img.shields.io/badge/platform-OSX-LOK.svg)
 
 
 ## A small, lightweight, a powerful iOS/OSX network debug library and make you debug easier.
