@@ -38,14 +38,17 @@ $ pod install
 
 ## Usage
 
-> [[LOKServer shareServer] setServerStartWithPort:`<#(NSInteger)#>`]
+```objc
+[[LOKServer shareServer] setServerStart:YES];
+```
 
 default port is 12345
 
 also you can custom your port number:
 
->
-
+```objc
+ [[LOKServer shareServer] setServerStartWithPort:`<#(NSInteger)#>`]
+```
 
 if you use the simulator, you can open `http://localhost:12345`.
 
