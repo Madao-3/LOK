@@ -6,7 +6,7 @@
 ![OSX](https://img.shields.io/badge/platform-OSX-LOK.svg)
 
 
-## A small, lightweight, a powerful iOS/OSX network debug library and make you debug easier.
+## A lightweight and powerful iOS/OSX network library to make your debugging easier.
 
 LOK can analyze all your request with a single line code.
 > [[LOKServer shareServer] setServerStart:YES];
@@ -16,10 +16,9 @@ LOK can analyze all your request with a single line code.
 
 ## Features
 
-
-* analyze all your http/https request
-* analyze your cpu/memory/fps(work in iOS)
-* only one line can make the service work.
+* analyze all of your http/https requests
+* analyze your cpu/memory/fps (works in iOS)
+* only one line is needed to make the service work.
 
 ## Installation
 To integrate LOK into your Xcode project using CocoaPods, specify it in your `Podfile`:
@@ -29,7 +28,6 @@ group :development do
   gem "LOK"
 end
 ```
-
 
 Then, run the following command:
 
@@ -43,18 +41,15 @@ $ pod install
 [[LOKServer shareServer] setServerStart:YES];
 ```
 
-default port is 12345
-
-also you can custom your port number:
+The default port is 12345. You can also customize the port number:
 
 ```objc
  [[LOKServer shareServer] setServerStartWithPort:`<#(NSInteger)#>`]
 ```
 
-if you use the simulator, you can open `http://localhost:12345`.
+If you are using the emulator, you can access the monitoring at `http://localhost:12345`.
 
-when the app launch,the url will copy to pasteboard.
-
+When the app launches, the url will be copied to the pasteboard.
 
 ## Get in touch!
 
