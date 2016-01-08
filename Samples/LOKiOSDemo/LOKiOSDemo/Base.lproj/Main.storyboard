@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="87D-Kg-bSN">
+                                <rect key="frame" x="541" y="28" width="46" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="AkN-60-ZKb"/>
+                                    <constraint firstAttribute="width" constant="46" id="cs2-xM-8hE"/>
+                                </constraints>
+                                <state key="normal" title="GO"/>
+                                <connections>
+                                    <action selector="GO:" destination="BYZ-38-t0r" eventType="touchUpInside" id="RIq-w6-K3k"/>
+                                </connections>
+                            </button>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="http://google.com" borderStyle="line" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2tZ-ms-cTx">
+                                <rect key="frame" x="9" y="28" width="524" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="JH9-Gg-vXI"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rfW-2g-bfP">
+                                <rect key="frame" x="9" y="66" width="578" height="534"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
+                            </webView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="rfW-2g-bfP" firstAttribute="top" secondItem="2tZ-ms-cTx" secondAttribute="bottom" constant="8" id="4PS-Lf-22K"/>
+                            <constraint firstItem="87D-Kg-bSN" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="8N1-gi-Ttd"/>
+                            <constraint firstItem="87D-Kg-bSN" firstAttribute="leading" secondItem="2tZ-ms-cTx" secondAttribute="trailing" constant="8" id="Dy0-uo-FjK"/>
+                            <constraint firstItem="rfW-2g-bfP" firstAttribute="top" secondItem="87D-Kg-bSN" secondAttribute="bottom" constant="8" id="G5y-CT-Zwy"/>
+                            <constraint firstItem="2tZ-ms-cTx" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="LuW-Io-jgx"/>
+                            <constraint firstAttribute="trailing" secondItem="rfW-2g-bfP" secondAttribute="trailing" constant="13" id="TIw-ug-Qlg"/>
+                            <constraint firstItem="2tZ-ms-cTx" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="9" id="XP3-cu-PxQ"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="rfW-2g-bfP" secondAttribute="bottom" id="cfj-Yo-V2b"/>
+                            <constraint firstItem="rfW-2g-bfP" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="9" id="gSQ-Wk-iQ0"/>
+                            <constraint firstItem="rfW-2g-bfP" firstAttribute="top" secondItem="2tZ-ms-cTx" secondAttribute="bottom" constant="8" id="iLj-t2-Qjg"/>
+                            <constraint firstAttribute="trailing" secondItem="87D-Kg-bSN" secondAttribute="trailing" constant="13" id="kuM-VK-AyO"/>
+                            <constraint firstItem="87D-Kg-bSN" firstAttribute="leading" secondItem="2tZ-ms-cTx" secondAttribute="trailing" constant="8" id="yei-i0-vgK"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="input" destination="2tZ-ms-cTx" id="B3C-Ce-BmN"/>
+                        <outlet property="webview" destination="rfW-2g-bfP" id="yTy-Jk-7FE"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="241" y="429"/>
+        </scene>
+    </scenes>
+</document>
