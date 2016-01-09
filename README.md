@@ -10,7 +10,7 @@
 
 LOK can analyze all your request with a single line code.
 ```objc
-[[LOKServer shareServer] setServerStart:YES];
+[[LOKServer shareServer] setServerStart:YES]; 
 ```
 
 

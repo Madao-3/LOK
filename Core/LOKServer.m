@@ -10,8 +10,8 @@
 #import "LOKURLSessionConfiguration.h"
 #import "LOKURLProtocol.h"
 #import "UsageManager.h"
-#import <RoutingHTTPServer.h>
-#import <PocketSocket/PSWebSocketServer.h>
+#import "RoutingHTTPServer.h"
+#import "PSWebSocketServer.h"
 #include <ifaddrs.h>
 #include <arpa/inet.h>
 #if TARGET_OS_IPHONE

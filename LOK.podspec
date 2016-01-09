@@ -5,7 +5,7 @@ Pod::Spec.new do |s|
   s.homepage     = "https://github.com/Madao-3/LOK"
   s.screenshots  = "https://camo.githubusercontent.com/e4f7e70e3f6427e0c259f89f1f3fcadbfaa27971/687474703a2f2f7777322e73696e61696d672e636e2f6c617267652f3934303533633264677731657a73356f6434376c346a323078633067763737622e6a7067"
 
-  s.license          = { :type => "MIT", :file => "FILE_LICENSE" }
+  s.license          = { :type => "MIT" }
   s.author           = "Madao"
   s.social_media_url = "https://twitter.com/madao_chris/"
   s.platform         = :ios, "7.0"
