@@ -7,7 +7,7 @@
 
 
 <p align="center">
-  <img src="http://ww3.sinaimg.cn/large/94053c2dgw1ezve6xzp7oj20dw0ku76t.jpg">
+  <img src="http://ww2.sinaimg.cn/large/94053c2dgw1ezve89terrj20ku0bpq53.jpg">
 </p>
 
 ## A lightweight and powerful iOS/OSX network library to make your debugging easier.
