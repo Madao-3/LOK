@@ -6,6 +6,10 @@
 ![OSX](https://img.shields.io/badge/platform-OSX-LOK.svg)
 
 
+<p align="center">
+  <img src="http://ww3.sinaimg.cn/large/94053c2dgw1ezve6xzp7oj20dw0ku76t.jpg">
+</p>
+
 ## A lightweight and powerful iOS/OSX network library to make your debugging easier.
 
 LOK can analyze all your request with a single line code.
